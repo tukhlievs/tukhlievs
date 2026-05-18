@@ -1,15 +1,15 @@
-<h1 align="center">Abubakir Tukhliev</h1>
+# Abubakir Tukhliev
 
-<p align="center">Python · Uzbekistan · 16</p>
+Python developer. Sixteen. Uzbekistan.
 
----
+Working toward ML/AI engineering — methodically, without skipping steps. Right now I'm deep in Python core and OOP. The road ahead goes through math foundations, NumPy and Pandas, classical ML with scikit-learn, and eventually deep learning with PyTorch.
 
-Working toward ML/AI engineering on a structured roadmap.  
-Self-taught — each layer before the next, nothing skipped.
-
-**Now:** Python core, OOP, pytest, advanced typing  
-**Ahead:** math foundations → NumPy / Pandas → scikit-learn → PyTorch → deployment
+No shortcuts. Depth over speed.
 
 ---
 
-<sub>Repositories accumulate as stages complete.</sub>
+I write clean code, document what I learn, and treat every project as practice for the real thing. GitHub is where I track honest progress — not stars, not streaks.
+
+---
+
+`Python` · `Git` · `Linux`
