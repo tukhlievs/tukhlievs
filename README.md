@@ -6,7 +6,7 @@ I'm interested in Python and AI. I study Python in my free time. In the future, 
 I know: 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=git,linux,gcp,docker,aws" />
+    <img src="https://skillicons.dev/icons?i=git,github,linux,gcp,docker,aws" />
   </a>
 </p>
 
