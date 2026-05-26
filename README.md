@@ -1,15 +1,13 @@
-# Abubakir Tukhliev
+# Salam👋
 
+My name is Abubakir, I'm 16 years old, I'm from Uzbekistan, from the Kokand City.  
+I'm interested in Python and AI. I study Python in my free time. In the future, I want to become a Fullstack Software Engineer.
 
+I know: Linux, work with AI, and other easy IT works.
 
-Working toward ML/AI engineering — methodically, without skipping steps. Right now I'm deep in Python core and OOP. The road ahead goes through math foundations, NumPy and Pandas, classical ML with scikit-learn, and eventually deep learning with PyTorch.
+Also, I have social media.
 
-No shortcuts. Depth over speed.
-
----
-
-I write clean code, document what I learn, and treat every project as practice for the real thing. GitHub is where I track honest progress — not stars, not streaks.
-
----
-
-`Python` · `Git` · `Linux`
+Telegram (I'm very active here): https://t.me/tukhlievs  
+Threads (I'm active here): https://www.threads.com/@tukhlie.v  
+X: https://x.com/tukhlievs  
+Substack: https://open.substack.com/pub/tkhv
