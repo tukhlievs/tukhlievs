@@ -3,7 +3,12 @@
 My name is Abubakir, I'm 16 years old, I'm from Uzbekistan, from the Kokand City.  
 I'm interested in Python and AI. I study Python in my free time. In the future, I want to become a Fullstack Software Engineer.
 
-I know: Linux, work with AI, and other easy IT works.
+I know: 
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=git,linux,gcp" />
+  </a>
+</p>
 
 Also, I have social media.
 
