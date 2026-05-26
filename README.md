@@ -1,6 +1,6 @@
 # Abubakir Tukhliev
 
-Python developer. Sixteen. Uzbekistan.
+
 
 Working toward ML/AI engineering — methodically, without skipping steps. Right now I'm deep in Python core and OOP. The road ahead goes through math foundations, NumPy and Pandas, classical ML with scikit-learn, and eventually deep learning with PyTorch.
 
