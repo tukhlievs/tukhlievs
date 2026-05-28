@@ -46,11 +46,11 @@ export default function HomePage(): JSX.Element {
       >
         <TopStrip mode={mode} />
         <Hero mode={mode} />
-        <Manifest />
+        <Manifesto />
         <BleedImage
           src={IMG.kokand}
-          alt="Коканд на закате — узкая улица старого города в тёплом боковом свете"
-          caption="Коканд / Старый город / золотой час"
+          alt="Kokand at sunset — a narrow old-city street in warm sidelight"
+          caption="Kokand / Old city / Golden hour"
         />
         <Now imgSrc={IMG.desk} />
         <Path />
@@ -107,7 +107,7 @@ function SectionHead({ num, title, eyebrow }: SectionHeadProps): JSX.Element {
       <span className="whitespace-nowrap font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--accent)]">
         {num}
       </span>
-      <h2 className="max-w-[14ch] text-balance font-display text-[clamp(2.2rem,5.8vw,3.4rem)] font-normal italic leading-[1.05] tracking-[-0.015em]">
+      <h2 className="max-w-[16ch] text-balance font-display text-[clamp(2.2rem,5.8vw,3.4rem)] font-normal italic leading-[1.05] tracking-[-0.015em]">
         {title}
       </h2>
       <span className="section-rule" aria-hidden />
@@ -118,10 +118,10 @@ function SectionHead({ num, title, eyebrow }: SectionHeadProps): JSX.Element {
   );
 }
 
-function Manifest(): JSX.Element {
+function Manifesto(): JSX.Element {
   return (
     <section className="mt-28 sm:mt-36">
-      <SectionHead num="01 ━" title="Зачем эта страница" eyebrow="Манифест" />
+      <SectionHead num="01 ━" title="Why this page" eyebrow="Manifesto" />
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -130,19 +130,20 @@ function Manifest(): JSX.Element {
         className="prose-content max-w-[36em] text-[clamp(1.02rem,1.45vw,1.115rem)] leading-[1.66]"
       >
         <p>
-          Это место, куда я свожу самое важное про себя — без раздутых
-          биографий и без списков навыков, которые ничего не значат. Один URL,
-          три ссылки, немного текста.{" "}
+          This is where I bring together the most important things about
+          myself — without bloated bios or skill lists that mean nothing. One
+          URL, three links, a little text.{" "}
           <span className="text-[color:var(--muted)]">
-            Я не пытаюсь продать себя крупными словами; пытаюсь честно
-            зафиксировать, кто я сейчас и куда иду.
+            I'm not trying to sell myself with big words; I'm trying to
+            honestly record who I am right now and where I'm headed.
           </span>
         </p>
         <p>
-          Я — Абубакир Тухлиев, шестнадцать лет, Узбекистан, Коканд. Веду эту
-          страницу как первый серьёзный фронтенд-проект и одновременно как
-          тихую витрину. Если у тебя есть, что мне сказать — самый быстрый
-          способ внизу. Если просто пришёл посмотреть — спасибо за внимание.
+          I'm Abubakir Tukhliev, sixteen years old, from Kokand, Uzbekistan.
+          I'm running this page as my first serious frontend project and at
+          the same time as a quiet shopfront. If you have something to say,
+          the fastest way is at the bottom. If you just came to look — thanks
+          for the attention.
         </p>
       </motion.div>
     </section>
@@ -182,7 +183,7 @@ function BleedImage({ src, alt, caption }: BleedImageProps): JSX.Element {
 function Now({ imgSrc }: { imgSrc: string }): JSX.Element {
   return (
     <section className="mt-28 sm:mt-36">
-      <SectionHead num="02 ━" title="Чем занят прямо сейчас" eyebrow="Now" />
+      <SectionHead num="02 ━" title="What I'm doing now" eyebrow="Now" />
       <div className="grid gap-10 sm:grid-cols-[1.2fr_0.85fr] sm:gap-16">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -192,32 +193,32 @@ function Now({ imgSrc }: { imgSrc: string }): JSX.Element {
           className="prose-content max-w-[36em] text-[clamp(1.02rem,1.45vw,1.115rem)] leading-[1.66]"
         >
           <p>
-            Учу <em className="k">Python</em>. Не курсами по диагонали, а через
-            задачи: пишу маленькие утилиты, разбираю чужой код, читаю про
-            чистую архитектуру. Параллельно прокачиваю математику, без которой
-            ML — это просто магия:{" "}
+            Learning <em className="k">Python</em>. Not by skimming courses,
+            but through problems: writing small utilities, reading other
+            people's code, studying clean architecture. In parallel I'm
+            sharpening the math without which ML is just magic —{" "}
             <span className="text-[color:var(--muted)]">
-              линейная алгебра, производные, основы статистики и теории
-              вероятностей.
+              linear algebra, derivatives, foundations of statistics and
+              probability.
             </span>
           </p>
           <p>
-            По будням стабильно два-три часа после школы и работы. Выходные
-            оставляю на проекты — там можно сесть подольше и не выныривать
-            каждые пятнадцать минут.
+            On weekdays, two to three hours after school and work, like
+            clockwork. Weekends I keep for projects — that's when I can sit
+            down longer and not have to surface every fifteen minutes.
           </p>
           <p>
-            Ближайшая большая цель — собрать первый полноценный ML-проект к
-            концу следующего года и попробовать податься на стажировку. Не{" "}
-            <em className="k">грандиозный</em>, а честный: с осмысленной
-            постановкой задачи, нормальной валидацией и репозиторием, который
-            не стыдно показать.
+            The next big goal is to build a first real ML project by the end
+            of next year and try applying for an internship. Not{" "}
+            <em className="k">grand</em>, just honest: a meaningful problem
+            statement, proper validation, and a repository I'd be comfortable
+            showing.
           </p>
         </motion.div>
         <FrameImage
           src={imgSrc}
-          alt="Рабочий стол с открытой тетрадью с написанным карандашом кодом и кружкой чая"
-          mark="№ 02 / Стол"
+          alt="A worn wooden desk with an open notebook of handwritten code and a small cup of tea"
+          mark="№ 02 / Desk"
         />
       </div>
     </section>
@@ -227,7 +228,7 @@ function Now({ imgSrc }: { imgSrc: string }): JSX.Element {
 function Path(): JSX.Element {
   return (
     <section className="mt-28 sm:mt-36">
-      <SectionHead num="03 ━" title="Куда иду" eyebrow="Path" />
+      <SectionHead num="03 ━" title="Where I'm headed" eyebrow="Path" />
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -236,19 +237,21 @@ function Path(): JSX.Element {
         className="prose-content max-w-[36em] text-[clamp(1.02rem,1.45vw,1.115rem)] leading-[1.66]"
       >
         <p>
-          Долгосрочная цель — стать <em className="k">ML/AI инженером</em>. Это
-          не вспышка увлечения, а решение, к которому я пришёл, понимая, что
-          мне в нём интересно: математика, оптимизация, идея учить машину
-          обобщать на новое.
+          Long-term goal — to become an{" "}
+          <em className="k">ML/AI engineer</em>. It isn't a passing
+          infatuation, it's a decision I came to knowing what actually pulls
+          me in: the math, the optimization, the idea of teaching a machine
+          to generalize to something new.
         </p>
         <p>
-          Иду без гонки. У меня нет жёсткого дедлайна и нет амбиции выложить к
-          концу года грандиозный проект. Есть план — пройти подряд несколько
-          глубоких стадий: основы Python, структуры данных и алгоритмы,
-          классический ML, нейросети, один настоящий проект, стажировка.{" "}
+          I'm walking, not running. I don't have a hard deadline and I don't
+          have an ambition to ship a grand project by year's end. I have a
+          plan — moving through a handful of deep stages in order: Python
+          fundamentals, data structures and algorithms, classical ML, neural
+          networks, one real project, internship.{" "}
           <span className="text-[color:var(--muted)]">
-            На каждой стадии задерживаюсь столько, сколько нужно, чтобы не
-            оставалось белых пятен.
+            I stay at each stage as long as I need to in order to leave no
+            blind spots behind.
           </span>
         </p>
       </motion.div>
@@ -260,10 +263,10 @@ function Path(): JSX.Element {
         transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
         className="mt-16 max-w-[28em] border-l border-[color:var(--rule)] py-8 pl-9 font-display text-[clamp(1.35rem,2.8vw,1.8rem)] italic leading-[1.32]"
       >
-        Глубина важнее скорости. Если на каждом шаге понимаешь, что и зачем —
-        следующий шаг сам встаёт на место.
+        Depth matters more than speed. If at every step you know what and
+        why, the next step falls into place on its own.
         <cite className="mt-4 block font-mono text-[10.5px] not-italic uppercase tracking-[0.22em] text-[color:var(--muted)]">
-          Личный принцип / 2026
+          Personal principle / 2026
         </cite>
       </motion.blockquote>
     </section>
@@ -273,12 +276,12 @@ function Path(): JSX.Element {
 function Reading({ imgSrc }: { imgSrc: string }): JSX.Element {
   return (
     <section className="mt-28 sm:mt-36">
-      <SectionHead num="04 ━" title="Что меня формирует" eyebrow="Reading" />
+      <SectionHead num="04 ━" title="What's shaping me" eyebrow="Reading" />
       <div className="grid gap-10 sm:grid-cols-[0.85fr_1.2fr] sm:gap-16">
         <FrameImage
           src={imgSrc}
-          alt="Стопка потёртых книг на подоконнике в утреннем свете"
-          mark="№ 04 / Полка"
+          alt="A small stack of worn books on a windowsill in soft morning light"
+          mark="№ 04 / Shelf"
         />
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -288,22 +291,22 @@ function Reading({ imgSrc }: { imgSrc: string }): JSX.Element {
           className="prose-content max-w-[36em] text-[clamp(1.02rem,1.45vw,1.115rem)] leading-[1.66]"
         >
           <p>
-            Книги, которые сейчас вызывают у меня желание подумать — а не
-            просто пролистать ленту: <em className="k">Fluent Python</em>{" "}
-            (Лучано Рамальо),{" "}
+            Books that currently make me want to think rather than scroll a
+            feed: <em className="k">Fluent Python</em> (Luciano Ramalho),{" "}
             <em className="k">Designing Data-Intensive Applications</em>{" "}
-            (Мартин Клеппман),{" "}
-            <em className="k">Hands-On Machine Learning</em> (Орельен Жерон).
+            (Martin Kleppmann),{" "}
+            <em className="k">Hands-On Machine Learning</em> (Aurélien
+            Géron).
           </p>
           <p>
-            Из людей — Andrej Karpathy с его серией{" "}
-            <em className="k">Neural Networks: Zero to Hero</em>, Григорий
-            Сапунов с постами про ML, и редкие разборы внутри Anthropic и
-            DeepMind.
+            People I learn from — Andrej Karpathy and his{" "}
+            <em className="k">Neural Networks: Zero to Hero</em> series, plus
+            occasional deep dives from inside Anthropic and DeepMind.
           </p>
           <p className="text-[color:var(--muted)]">
-            Чтение для меня — не способ убить время, а способ занять голову
-            мыслями, которыми хочется заниматься.
+            Reading for me isn't a way to kill time — it's a way to fill my
+            head with the kind of thoughts I actually want to spend time
+            with.
           </p>
         </motion.div>
       </div>
@@ -365,7 +368,7 @@ function Colophon({ mode }: { mode: ThemeMode }): JSX.Element {
       </div>
       <div>
         <h3 className="mb-2.5 font-medium text-[color:var(--muted-2)]">Colophon</h3>
-        <p className="mb-1 text-[color:var(--fg)]">© {new Date().getFullYear()} A. Тухлиев</p>
+        <p className="mb-1 text-[color:var(--fg)]">© {new Date().getFullYear()} A. Tukhliev</p>
         <p className="mb-1 text-[color:var(--fg)]">
           <a
             href="https://github.com/tukhlievs/tukhlievs"

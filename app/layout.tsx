@@ -3,7 +3,7 @@ import { Fraunces, Onest, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const fraunces = Fraunces({
-  subsets: ["latin", "latin-ext", "cyrillic"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-display",
   style: ["normal", "italic"],
   weight: ["300", "400", "500"],
@@ -11,14 +11,14 @@ const fraunces = Fraunces({
 });
 
 const onest = Onest({
-  subsets: ["latin", "latin-ext", "cyrillic"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-body",
   weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin", "cyrillic"],
+  subsets: ["latin"],
   variable: "--font-mono",
   weight: ["400", "500"],
   display: "swap",
@@ -27,14 +27,13 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://tukhlievs.github.io/tukhlievs/"),
   title: {
-    default: "Абубакир Тухлиев — Personal page",
+    default: "Abubakir Tukhliev — Personal page",
     template: "%s · Abubakir Tukhliev",
   },
   description:
-    "Личная страница Абубакира (Абу) — 16 лет, г. Коканд, Узбекистан. Python, AI/ML, frontend.",
+    "Personal page of Abubakir (Abu) — 16 years old, Kokand, Uzbekistan. Python, AI/ML, frontend.",
   keywords: [
     "Abubakir Tukhliev",
-    "Абубакир Тухлиев",
     "tukhlievs",
     "Python",
     "AI",
@@ -47,15 +46,15 @@ export const metadata: Metadata = {
   creator: "Abubakir Tukhliev",
   openGraph: {
     type: "profile",
-    locale: "ru_RU",
-    title: "Абубакир Тухлиев — Personal page",
+    locale: "en_US",
+    title: "Abubakir Tukhliev — Personal page",
     description:
-      "16 лет. Коканд, Узбекистан. Python, AI/ML, frontend. Telegram · Threads · GitHub.",
+      "16 years old. Kokand, Uzbekistan. Python, AI/ML, frontend. Telegram · Threads · GitHub.",
     siteName: "tukhlievs",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Абубакир Тухлиев",
+    title: "Abubakir Tukhliev",
     description: "Python · AI/ML · Software Engineer in progress",
   },
   robots: { index: true, follow: true },
@@ -75,7 +74,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="ru"
+      lang="en"
       className={`${fraunces.variable} ${onest.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >

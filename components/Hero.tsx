@@ -40,7 +40,7 @@ export function Hero({ mode }: HeroProps): JSX.Element {
         className="inline-flex items-center gap-2.5 font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--muted)]"
       >
         <span aria-hidden className="inline-block h-px w-7 bg-[color:var(--rule)]" />
-        Узбекистан · Коканд · {year}
+        Uzbekistan · Kokand · {year}
       </motion.div>
 
       <motion.h1
@@ -49,9 +49,9 @@ export function Hero({ mode }: HeroProps): JSX.Element {
         transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
         className="mt-8 text-balance font-display text-[clamp(3rem,9.2vw,6.2rem)] font-normal leading-[0.96] tracking-[-0.022em]"
       >
-        Абубакир
+        Abubakir
         <br />
-        <span className="italic text-[color:var(--muted)]">Тухлиев</span>{" "}
+        <span className="italic text-[color:var(--muted)]">Tukhliev</span>{" "}
         <span className="text-[color:var(--accent)]">/ Abu</span>.
       </motion.h1>
 
@@ -61,13 +61,13 @@ export function Hero({ mode }: HeroProps): JSX.Element {
         transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
         className="mt-8 max-w-[36em] text-[clamp(1.05rem,1.6vw,1.18rem)] leading-[1.62]"
       >
-        Шестнадцать лет. Учу{" "}
-        <em className="not-italic text-[color:var(--accent)]">Python</em> с
-        прицелом на ML/AI инженера. Эта страница — место, куда я свожу самое
-        важное про себя{" "}
+        Sixteen years old. Learning{" "}
+        <em className="not-italic text-[color:var(--accent)]">Python</em> with
+        my sights set on becoming an ML/AI engineer. This page is where I bring
+        together the most important things about myself{" "}
         <span className="text-[color:var(--muted)]">
-          без раздутых биографий, бейджей и шаблонных списков навыков, которые
-          ничего не значат.
+          — without bloated bios, badges, or boilerplate skill lists that mean
+          nothing.
         </span>
       </motion.p>
 
@@ -79,7 +79,7 @@ export function Hero({ mode }: HeroProps): JSX.Element {
       >
         <span className="pill">
           <MapPin />
-          Коканд, UZ
+          Kokand, UZ
         </span>
         <span className="pill">{mode === "night" ? "Night build" : "Day build"}</span>
         <span className="pill">

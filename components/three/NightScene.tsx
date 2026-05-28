@@ -9,8 +9,7 @@ const DUST_COUNT = 380;
 /**
  * Night atmosphere: a single low-poly wireframe icosahedron drifting
  * off-axis, surrounded by a sparse field of slow-rising dust particles.
- * Calmer and more intentional than a scattered starfield + city silhouette —
- * the form is the subject, not the chrome.
+ * The form is the subject, not the chrome.
  */
 export function NightScene(): JSX.Element {
   const icosaRef = useRef<THREE.LineSegments>(null);
@@ -50,14 +49,18 @@ export function NightScene(): JSX.Element {
     }
     if (dustRef.current) {
       const pos = dustRef.current.geometry.attributes.position;
-      if (pos) {
-        for (let i = 0; i < DUST_COUNT; i++) {
-          const idx = i * 3 + 1;
-          pos.array[idx] += dt * (0.04 + (i % 7) * 0.005);
-          if (pos.array[idx]! > 6) pos.array[idx] = -6;
-        }
-        pos.needsUpdate = true;
+      if (!pos) return;
+      // BufferAttribute.array is a TypedArray; the cast narrows the union
+      // so we can both read and write without `noUncheckedIndexedAccess`
+      // forcing a `number | undefined` shape onto every access.
+      const arr = pos.array as Float32Array;
+      for (let i = 0; i < DUST_COUNT; i++) {
+        const idx = i * 3 + 1;
+        const cur = arr[idx] ?? 0;
+        const next = cur + dt * (0.04 + (i % 7) * 0.005);
+        arr[idx] = next > 6 ? -6 : next;
       }
+      pos.needsUpdate = true;
     }
   });
 

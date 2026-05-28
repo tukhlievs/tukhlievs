@@ -49,14 +49,15 @@ export function DayScene(): JSX.Element {
     }
     if (dustRef.current) {
       const pos = dustRef.current.geometry.attributes.position;
-      if (pos) {
-        for (let i = 0; i < DUST_COUNT; i++) {
-          const idx = i * 3 + 1;
-          pos.array[idx] += dt * (0.03 + (i % 7) * 0.004);
-          if (pos.array[idx]! > 6) pos.array[idx] = -6;
-        }
-        pos.needsUpdate = true;
+      if (!pos) return;
+      const arr = pos.array as Float32Array;
+      for (let i = 0; i < DUST_COUNT; i++) {
+        const idx = i * 3 + 1;
+        const cur = arr[idx] ?? 0;
+        const next = cur + dt * (0.03 + (i % 7) * 0.004);
+        arr[idx] = next > 6 ? -6 : next;
       }
+      pos.needsUpdate = true;
     }
   });
 

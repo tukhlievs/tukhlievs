@@ -12,27 +12,27 @@ const PLATFORMS: readonly ContactPlatform[] = [
     label: "Telegram",
     handle: "@tukhlievs",
     href: "https://t.me/tukhlievs",
-    description: "Telegram · быстрая связь",
+    description: "Telegram · the fastest way to reach me",
   },
   {
     id: "threads",
     label: "Threads",
     handle: "@tukhlie.v",
     href: "https://www.threads.net/@tukhlie.v",
-    description: "Threads · короткие заметки",
+    description: "Threads · short notes",
   },
   {
     id: "github",
     label: "GitHub",
     handle: "@tukhlievs",
     href: "https://github.com/tukhlievs",
-    description: "GitHub · код и проекты",
+    description: "GitHub · code and projects",
   },
 ];
 
 export function ContactCards(): JSX.Element {
   return (
-    <section aria-label="Контакты" className="mt-28 sm:mt-36">
+    <section aria-label="Contacts" className="mt-28 sm:mt-36">
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ export function ContactCards(): JSX.Element {
           05 ━
         </span>
         <h2 className="max-w-[14ch] text-balance font-display text-[clamp(2.2rem,5.8vw,3.4rem)] font-normal italic leading-[1.05] tracking-[-0.015em]">
-          Связаться
+          Get in touch
         </h2>
         <span className="section-rule" aria-hidden />
         <span className="whitespace-nowrap font-mono text-[10.5px] uppercase tracking-[0.24em] text-[color:var(--muted)]">
@@ -59,7 +59,7 @@ export function ContactCards(): JSX.Element {
         transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
         className="mb-2 max-w-[36em] text-[clamp(1.02rem,1.45vw,1.115rem)] leading-[1.66] text-[color:var(--muted)]"
       >
-        Telegram читаю первым. Threads и GitHub — для всего остального.
+        I check Telegram first. Threads and GitHub — for everything else.
       </motion.p>
 
       <div className="mt-6" role="list">
