@@ -1,59 +1,76 @@
-export const siteData = {
+// Single source of truth — parsed from github.com/tukhlievs/tukhlievs README.md
+
+export type Social = {
+  name: string;
+  handle: string;
+  href: string;
+  note?: string;
+  icon: "telegram" | "github" | "threads" | "x" | "substack";
+};
+
+export const site = {
   name: "Abubakir Tukhliev",
+  firstName: "Abubakir",
   handle: "tukhlievs",
-  location: "Kokand, Uzbekistan",
+  greeting: "Salam",
   age: 16,
-  shortBio:
-    "16-year-old developer from Kokand. Learning Python and exploring the AI space — working toward ML engineering.",
-  longBio:
-    "I'm 16, based in Kokand, Uzbekistan. My focus is Python and AI — building intuition for how systems learn from data. Currently studying ML fundamentals while shipping small projects on weekends. Goal: Junior ML/AI Engineer.",
-  taglines: [
-    "Python Developer",
-    "AI Learner",
-    "Future ML Engineer",
-    "Building in Uzbekistan",
+  location: "Kokand, Uzbekistan",
+  locationShort: "Kokand, UZ",
+  timeZone: "Asia/Tashkent",
+  goal: "Fullstack Software Engineer",
+
+  // Rotating display roles (animated text)
+  roles: [
+    "Python developer",
+    "AI tinkerer",
+    "future fullstack engineer",
+    "building from Uzbekistan",
   ],
-  skills: ["Python", "AI", "Machine Learning", "Deep Learning"],
+
+  // Short about — first person, drawn from the README
+  bio: "A 16-year-old developer from Kokand, Uzbekistan. I spend my free time learning Python and AI, and I'm working toward becoming a Fullstack Software Engineer.",
+
+  // The stuff I work with
+  stack: {
+    ai: ["Claude", "DeepSeek", "Gemini", "Hugging Face"],
+    tools: ["Git", "GitHub", "Linux", "GCP", "Docker", "AWS"],
+  },
+
+  // Quick links to socials — order = priority. Telegram first (most active).
   socials: [
     {
-      id: "telegram",
-      label: "Telegram",
-      description: "Most active here",
+      name: "Telegram",
       handle: "@tukhlievs",
-      url: "https://t.me/tukhlievs",
-      primary: true,
+      href: "https://t.me/tukhlievs",
+      note: "most active here",
+      icon: "telegram",
     },
     {
-      id: "github",
-      label: "GitHub",
-      description: "Code & projects",
-      handle: "tukhlievs",
-      url: "https://github.com/tukhlievs",
-      primary: true,
+      name: "GitHub",
+      handle: "@tukhlievs",
+      href: "https://github.com/tukhlievs",
+      icon: "github",
     },
     {
-      id: "threads",
-      label: "Threads",
-      description: "Active here too",
+      name: "Threads",
       handle: "@tukhlie.v",
-      url: "https://www.threads.com/@tukhlie.v",
-      primary: false,
+      href: "https://www.threads.com/@tukhlie.v",
+      note: "active here",
+      icon: "threads",
     },
     {
-      id: "x",
-      label: "X",
-      description: "Thoughts & updates",
+      name: "X",
       handle: "@tukhlievs",
-      url: "https://x.com/tukhlievs",
-      primary: false,
+      href: "https://x.com/tukhlievs",
+      icon: "x",
     },
     {
-      id: "substack",
-      label: "Substack",
-      description: "Writing",
-      handle: "tkhv",
-      url: "https://open.substack.com/pub/tkhv",
-      primary: false,
+      name: "Substack",
+      handle: "/tkhv",
+      href: "https://open.substack.com/pub/tkhv",
+      icon: "substack",
     },
-  ],
+  ] as Social[],
+
+  avatar: "https://github.com/tukhlievs.png",
 } as const;

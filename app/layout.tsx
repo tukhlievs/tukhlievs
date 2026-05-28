@@ -1,42 +1,59 @@
-import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Abubakir Tukhliev",
+  title: "Abubakir Tukhliev — Python & AI Developer",
   description:
-    "16-year-old developer from Kokand, Uzbekistan. Python & AI learner. Building toward ML engineering.",
-  keywords: ["Abubakir Tukhliev", "tukhlievs", "Python", "AI", "Uzbekistan", "ML Engineer"],
-  authors: [{ name: "Abubakir Tukhliev", url: "https://github.com/tukhlievs" }],
+    "16-year-old developer from Kokand, Uzbekistan. Learning Python and AI, working toward becoming a Fullstack Software Engineer. Quick links to all my socials.",
+  keywords: [
+    "Abubakir Tukhliev",
+    "tukhlievs",
+    "Python developer",
+    "AI",
+    "Uzbekistan",
+    "Kokand",
+    "fullstack engineer",
+  ],
+  authors: [{ name: "Abubakir Tukhliev" }],
   openGraph: {
-    title: "Abubakir Tukhliev",
-    description: "16-year-old developer from Kokand, Uzbekistan.",
+    title: "Abubakir Tukhliev — Python & AI Developer",
+    description:
+      "16-year-old developer from Kokand, Uzbekistan. Learning Python and AI. Find me online.",
     type: "website",
     locale: "en_US",
+    siteName: "tukhlievs",
   },
-  twitter: {
-    card: "summary",
-    title: "Abubakir Tukhliev",
-    description: "16-year-old developer from Kokand, Uzbekistan.",
-    creator: "@tukhlievs",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0e0e0d",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${GeistSans.variable} ${GeistMono.variable} font-mono antialiased`}
-      >
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
+      <body>
+        <noscript>
+          {/* Ensure scroll-reveal content (incl. social links) shows without JS */}
+          <style>{`.reveal{opacity:1 !important;transform:none !important}`}</style>
+        </noscript>
         {children}
       </body>
     </html>
