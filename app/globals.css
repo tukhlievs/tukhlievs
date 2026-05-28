@@ -5,34 +5,35 @@
 @layer base {
   :root {
     --bg:          #0C0A08;
-    --bg-2:        #131009;
     --fg:          #EBE4D6;
     --muted:       #6A6157;
     --muted-2:     #3D3830;
     --accent:      #3B6BE0;
-    --accent-2:    #2453C4;
-    --accent-soft: rgba(59, 107, 224, 0.14);
-    --stroke:      rgba(235, 228, 214, 0.08);
-    --rule:        rgba(235, 228, 214, 0.11);
-    --bloom:       rgba(59, 107, 224, 0.11);
+    --accent-soft: rgba(59,107,224,0.14);
+    --stroke:      rgba(235,228,214,0.09);
+    --rule:        rgba(235,228,214,0.11);
+    --bloom:       rgba(59,107,224,0.12);
+    --card-bg:     rgba(255,255,255,0.04);
   }
-
   :root[data-theme="day"] {
     --bg:          #F0EAD9;
-    --bg-2:        #E6DEC8;
     --fg:          #110E09;
     --muted:       #726855;
     --muted-2:     #A8977F;
     --accent:      #1E44BB;
-    --accent-2:    #163298;
-    --accent-soft: rgba(30, 68, 187, 0.10);
-    --stroke:      rgba(17, 14, 9, 0.09);
-    --rule:        rgba(17, 14, 9, 0.13);
-    --bloom:       rgba(30, 68, 187, 0.07);
+    --accent-soft: rgba(30,68,187,0.10);
+    --stroke:      rgba(17,14,9,0.09);
+    --rule:        rgba(17,14,9,0.13);
+    --bloom:       rgba(30,68,187,0.07);
+    --card-bg:     rgba(255,255,255,0.82);
   }
 
-  html,
-  body {
+  html, body {
+    /* clip prevents horizontal overflow from any internal element */
+    overflow-x: clip;
+  }
+
+  html, body {
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-body), system-ui, -apple-system, sans-serif;
@@ -40,58 +41,44 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition:
-      background-color 900ms cubic-bezier(0.4, 0, 0.2, 1),
-      color 900ms cubic-bezier(0.4, 0, 0.2, 1);
+      background-color 800ms ease,
+      color 800ms ease;
   }
 
-  ::selection {
-    background: var(--accent);
-    color: var(--bg);
-  }
+  ::selection { background: var(--accent); color: var(--bg); }
 
-  @keyframes bloom-a {
-    0%   { transform: translate(0, 0)   scale(1); }
-    100% { transform: translate(4%, 6%) scale(1.08); }
-  }
-  @keyframes bloom-b {
-    0%   { transform: translate(0, 0)    scale(1); }
-    100% { transform: translate(-5%, 4%) scale(1.06); }
-  }
-  @keyframes dot-pulse {
-    0%, 100% { opacity: 1;    box-shadow: 0 0 0 0 var(--accent-soft); }
-    50%       { opacity: 0.75; box-shadow: 0 0 0 6px transparent; }
-  }
-  @keyframes scroll-hint {
-    0%, 100% { opacity: 0.5; transform: translateY(0); }
-    50%       { opacity: 1;   transform: translateY(4px); }
+  @keyframes bloom-a { to { transform: translate(5%,7%) scale(1.07); } }
+  @keyframes bloom-b { to { transform: translate(-5%,4%) scale(1.05); } }
+  @keyframes live-dot {
+    0%,100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+    50%      { box-shadow: 0 0 0 6px transparent; }
   }
 }
 
 @layer components {
-  /* ── CSS-only atmospheric background ── */
-  .atmosphere {
+  /* ── CSS atmospheric background ── */
+  .atm {
     @apply fixed inset-0 z-0 pointer-events-none overflow-hidden;
   }
-  .atmosphere::before,
-  .atmosphere::after {
+  .atm::before, .atm::after {
     content: "";
     @apply absolute rounded-full;
   }
-  .atmosphere::before {
-    width: 90vmax; height: 90vmax;
-    top: -40vmax; right: -30vmax;
+  .atm::before {
+    width: 80vmax; height: 80vmax;
+    top: -38vmax; right: -28vmax;
     background: radial-gradient(circle, var(--bloom) 0%, transparent 65%);
-    animation: bloom-a 18s ease-in-out infinite alternate;
+    animation: bloom-a 20s ease-in-out infinite alternate;
   }
-  .atmosphere::after {
-    width: 60vmax; height: 60vmax;
-    bottom: -25vmax; left: -15vmax;
-    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
-    opacity: 0.55;
-    animation: bloom-b 14s ease-in-out infinite alternate;
+  .atm::after {
+    width: 55vmax; height: 55vmax;
+    bottom: -20vmax; left: -12vmax;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 62%);
+    opacity: 0.5;
+    animation: bloom-b 16s ease-in-out infinite alternate;
   }
 
-  /* ── grain overlay ── */
+  /* ── grain ── */
   .grain-overlay {
     @apply fixed inset-0 pointer-events-none;
     z-index: 1;
@@ -100,121 +87,186 @@
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 
-  /* ── page container ── */
-  .page-wrap {
-    @apply relative mx-auto max-w-[1040px] px-8;
+  /* ── max-width container ── */
+  .wrap {
+    @apply relative mx-auto max-w-[680px] px-6 sm:px-10;
     z-index: 3;
   }
 
-  /* ── pill ── */
-  .pill {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-[color:var(--stroke)]
-           px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em]
-           text-[color:var(--muted)] transition-colors duration-300;
-  }
-  .pill:hover { border-color: var(--accent); }
-  .pill svg { @apply size-3 opacity-70; }
-
   /* ── live dot ── */
   .live-dot {
-    @apply inline-block size-1.5 rounded-full bg-[color:var(--accent)];
-    animation: dot-pulse 2.8s ease-in-out infinite;
+    @apply inline-block size-1.5 rounded-full bg-[color:var(--accent)] flex-shrink-0;
+    animation: live-dot 2.6s ease-in-out infinite;
   }
 
-  /* ── section rule line (desktop spacer between heading and eyebrow) ── */
-  .section-rule-line {
-    @apply hidden sm:block self-center flex-none h-px w-8 bg-[color:var(--rule)];
+  /* ── link card (the main social link element) ── */
+  .link-card {
+    @apply relative flex items-center gap-4 sm:gap-5 rounded-[18px] overflow-hidden cursor-pointer;
+    padding: 18px 20px 18px 22px;
+    border: 1px solid var(--stroke);
+    background: var(--card-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      transform 500ms cubic-bezier(0.22,1,0.36,1),
+      border-color 350ms ease,
+      box-shadow 350ms ease;
+    will-change: transform;
+  }
+  @media (min-width: 600px) {
+    .link-card { padding: 22px 26px; }
+  }
+  .link-card:hover {
+    transform: translateY(-2px) scale(1.008);
+    border-color: rgba(59,107,224,0.4);
+    box-shadow: 0 20px 48px -16px rgba(59,107,224,0.22);
+  }
+  :root[data-theme="day"] .link-card:hover {
+    border-color: rgba(30,68,187,0.35);
+    box-shadow: 0 20px 48px -16px rgba(30,68,187,0.18);
   }
 
-  /* ── full-bleed image ── */
-  .bleed {
-    @apply m-0 overflow-hidden;
+  /* left accent strip — appears on hover */
+  .card-accent-strip {
+    @apply absolute left-0 top-0 bottom-0 w-[3px] bg-[color:var(--accent)] opacity-0 rounded-l-[18px];
+    transition: opacity 350ms ease;
+  }
+  .link-card:hover .card-accent-strip { @apply opacity-100; }
+
+  /* radial glow overlay */
+  .card-glow {
+    @apply absolute inset-0 rounded-[inherit] opacity-0 pointer-events-none;
+    background: radial-gradient(120% 90% at 90% 10%, var(--accent-soft) 0%, transparent 60%);
+    transition: opacity 350ms ease;
+  }
+  .link-card:hover .card-glow { @apply opacity-100; }
+
+  /* icon box */
+  .card-icon-box {
+    @apply flex-shrink-0 grid place-items-center rounded-xl border border-[color:var(--stroke)] text-[color:var(--accent)];
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.04);
+    transition: background 350ms ease, border-color 350ms ease;
+  }
+  :root[data-theme="day"] .card-icon-box {
+    background: rgba(0,0,0,0.04);
+  }
+  .link-card:hover .card-icon-box {
+    background: var(--accent-soft);
+    border-color: rgba(59,107,224,0.3);
+  }
+
+  /* card label & handle */
+  .card-tag {
+    @apply block font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--muted)] mb-1;
+  }
+  .card-handle {
+    @apply block font-display font-normal italic text-[color:var(--fg)] leading-none whitespace-nowrap overflow-hidden text-ellipsis;
+    font-size: clamp(1.25rem, 3.5vw, 1.65rem);
+  }
+
+  /* arrow circle */
+  .card-arrow-box {
+    @apply flex-shrink-0 grid place-items-center rounded-full border border-[color:var(--stroke)] text-[color:var(--muted)];
+    width: 36px; height: 36px;
+    transition:
+      transform 500ms cubic-bezier(0.22,1,0.36,1),
+      color 300ms ease,
+      border-color 300ms ease,
+      background 300ms ease;
+  }
+  .link-card:hover .card-arrow-box {
+    transform: rotate(-45deg);
+    color: var(--accent);
+    border-color: rgba(59,107,224,0.4);
+    background: var(--accent-soft);
+  }
+
+  /* ── photo band — full-width, NO negative margin trick ── */
+  .photo-band {
     position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    width: 100vw;
-    height: clamp(220px, 42vw, 600px);
+    z-index: 3;
+    width: 100%;
+    height: clamp(200px, 38vw, 520px);
+    overflow: hidden;
+    margin: 0;
   }
-  .bleed img {
+  .photo-band img {
     @apply block w-full h-full;
     object-fit: cover;
-    object-position: center 40%;
+    object-position: center 38%;
     filter: saturate(0.88) contrast(1.04);
   }
-  .bleed figcaption {
-    @apply absolute bottom-0 left-0 right-0 px-8 py-5 flex items-center gap-2.5
-           font-mono text-[10.5px] uppercase tracking-[0.2em];
-    background: linear-gradient(to top, rgba(12,10,8,0.72) 0%, transparent 100%);
-    color: rgba(235, 228, 214, 0.7);
+  .photo-band figcaption {
+    @apply absolute bottom-0 left-0 right-0 px-6 py-4 flex items-center gap-2
+           font-mono text-[10px] uppercase tracking-[0.2em];
+    background: linear-gradient(to top, rgba(12,10,8,.7) 0%, transparent 100%);
+    color: rgba(235,228,214,.68);
   }
-  :root[data-theme="day"] .bleed figcaption {
-    background: linear-gradient(to top, rgba(240,234,217,0.72) 0%, transparent 100%);
-    color: rgba(17, 14, 9, 0.55);
+  :root[data-theme="day"] .photo-band figcaption {
+    background: linear-gradient(to top, rgba(240,234,217,.7) 0%, transparent 100%);
+    color: rgba(17,14,9,.5);
   }
-  .bleed figcaption::before {
+  .photo-band figcaption::before {
     content: "▢";
     @apply text-[9px] text-[color:var(--accent)] flex-shrink-0;
   }
 
-  /* ── frame image ── */
-  .frame-img {
-    @apply relative m-0;
+  /* ── content sections ── */
+  .content-divider {
+    height: 1px;
+    background: var(--rule);
   }
-  .frame-img img {
-    @apply block w-full h-auto;
-    filter: saturate(0.88) contrast(1.04);
+  .csect {
+    @apply py-12;
+    border-bottom: 1px solid var(--rule);
   }
-  .frame-img .mark {
-    @apply absolute -bottom-2.5 -left-2.5 border border-[color:var(--stroke)]
-           bg-[color:var(--bg)] px-2 py-0.5 font-mono text-[10px]
-           uppercase tracking-[0.2em] text-[color:var(--muted)];
+  .csect:last-of-type { border-bottom: none; }
+  .csect-head {
+    @apply flex flex-wrap items-baseline gap-3 mb-5;
+  }
+  .csect-num {
+    @apply font-mono text-[10.5px] uppercase tracking-[0.22em] text-[color:var(--accent)] flex-shrink-0;
+  }
+  .csect-title {
+    @apply font-display font-semibold leading-[1.05] tracking-[-0.015em] text-[color:var(--fg)] m-0;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+  }
+  .csect-ew {
+    @apply ml-auto font-mono text-[10.5px] uppercase tracking-[0.22em] text-[color:var(--muted)] whitespace-nowrap;
   }
 
-  /* ── contact row ── */
-  .contact-row {
-    @apply relative overflow-hidden grid items-baseline py-[22px]
-           border-t border-[color:var(--rule)];
-    grid-template-columns: 40px 1fr auto auto;
-    gap: 0 20px;
-    color: inherit;
-    text-decoration: none;
-    cursor: pointer;
-    transition: padding-left 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* ── prose ── */
+  .prose {
+    @apply max-w-[36em] font-light leading-[1.68];
+    font-size: clamp(0.975rem, 1.4vw, 1.05rem);
   }
-  .contact-row:last-child { @apply border-b border-[color:var(--rule)]; }
-  .contact-row::before {
-    content: "";
-    @apply absolute left-0 top-0 bottom-0 w-0 bg-[color:var(--accent)];
-    opacity: 0.12;
-    transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .contact-row:hover::before { width: 100%; }
-  .contact-row:hover { padding-left: 16px; }
+  .prose p { @apply mb-[1.05em] last:mb-0; text-wrap: pretty; }
 
-  .contact-row .c-n {
-    @apply font-mono text-[11px] uppercase tracking-[0.18em]
-           text-[color:var(--accent)] self-center;
+  /* ── pull quote ── */
+  .pull {
+    @apply mt-7 border-l-2 border-[color:var(--accent)] py-4 pl-5 font-display font-normal italic
+           leading-[1.35] text-[color:var(--fg)] max-w-[26em];
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
   }
-  .contact-row .c-p {
-    @apply font-display font-normal italic leading-none text-[color:var(--fg)];
-    font-size: clamp(1.6rem, 3.8vw, 2.2rem);
+  .pull cite {
+    @apply block mt-3 font-mono not-italic text-[10px] uppercase tracking-[0.22em] text-[color:var(--muted)];
   }
-  .contact-row .c-h {
-    @apply font-mono text-[12.5px] tracking-[0.12em] whitespace-nowrap
-           text-[color:var(--muted)] transition-colors duration-300;
+
+  /* ── colophon ── */
+  .colophon {
+    @apply pt-9 pb-16 grid grid-cols-1 gap-6 border-t border-[color:var(--rule)]
+           font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--muted)];
   }
-  .contact-row:hover .c-h { color: var(--fg); }
-  .contact-row .c-a {
-    @apply size-[18px] text-[color:var(--muted)] flex-shrink-0
-           transition-[transform,color] duration-500;
-    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease;
+  @screen sm { .colophon { grid-template-columns: repeat(3,1fr); } }
+  .colophon h3 { @apply mb-2.5 font-medium text-[color:var(--muted-2)]; }
+  .colophon p  { @apply mb-1 text-[color:var(--fg)]; }
+  .colophon a  {
+    @apply border-b border-[color:var(--rule)] transition-colors duration-300;
   }
-  .contact-row:hover .c-a {
-    transform: translate(3px, -3px);
-    color: var(--accent);
-  }
+  .colophon a:hover { @apply border-[color:var(--accent)] text-[color:var(--accent)]; }
 }
 
 @media (prefers-reduced-motion: reduce) {
