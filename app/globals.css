@@ -4,252 +4,95 @@
 
 @layer base {
   :root {
-    --bg:          #0C0A08;
-    --fg:          #EBE4D6;
-    --muted:       #6A6157;
-    --muted-2:     #3D3830;
-    --accent:      #3B6BE0;
-    --accent-dim:  rgba(59,107,224,0.14);
-    --stroke:      rgba(235,228,214,0.09);
-    --rule:        rgba(235,228,214,0.11);
-    --card-bg:     rgba(255,255,255,0.04);
-    --bloom:       rgba(59,107,224,0.12);
+    /* shadcn signature black — zinc dark */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
   }
-  :root[data-theme="day"] {
-    --bg:          #F0EAD9;
-    --fg:          #110E09;
-    --muted:       #726855;
-    --muted-2:     #A8977F;
-    --accent:      #1E44BB;
-    --accent-dim:  rgba(30,68,187,0.10);
-    --stroke:      rgba(17,14,9,0.09);
-    --rule:        rgba(17,14,9,0.13);
-    --card-bg:     rgba(255,255,255,0.80);
-    --bloom:       rgba(30,68,187,0.07);
-  }
-
-  html, body {
-    overflow-x: clip;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-body), system-ui, -apple-system, sans-serif;
-    font-weight: 300;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transition: background 800ms ease, color 800ms ease;
-    /* room for fixed bottom nav */
-    padding-bottom: calc(76px + env(safe-area-inset-bottom));
-  }
-
-  ::selection { background: var(--accent); color: var(--bg); }
-
-  /* ── loading screen keyframes ── */
-  @keyframes loader-text {
-    0%   { opacity: 0; transform: scale(0.88); letter-spacing: 0.1em; filter: blur(16px); }
-    20%  { opacity: 1; transform: scale(1);    letter-spacing: 0.3em; filter: blur(0); }
-    70%  { opacity: 1; transform: scale(1.02); letter-spacing: 0.35em; }
-    100% { opacity: 0; transform: scale(2.8);  letter-spacing: 1.4em; filter: blur(4px); }
-  }
-  @keyframes loader-screen {
-    from { opacity: 1; }
-    to   { opacity: 0; }
-  }
-
-  /* ── blur-in keyframe ── */
-  @keyframes blur-in {
-    from { opacity: 0; filter: blur(10px); transform: translateY(10px); }
-    to   { opacity: 1; filter: blur(0px);  transform: translateY(0); }
-  }
-
-  /* ── atmosphere keyframes ── */
-  @keyframes bA { to { transform: translate(5%,7%) scale(1.07); } }
-  @keyframes bB { to { transform: translate(-5%,4%) scale(1.05); } }
 }
 
-@layer components {
-  /* ── atmosphere ── */
-  .atm {
-    @apply fixed inset-0 z-0 pointer-events-none overflow-hidden;
-  }
-  .atm::before, .atm::after {
-    content: "";
-    @apply absolute rounded-full;
-  }
-  .atm::before {
-    width: 80vmax; height: 80vmax;
-    top: -38vmax; right: -28vmax;
-    background: radial-gradient(circle, var(--bloom) 0%, transparent 65%);
-    animation: bA 20s ease-in-out infinite alternate;
-  }
-  .atm::after {
-    width: 55vmax; height: 55vmax;
-    bottom: -20vmax; left: -12vmax;
-    background: radial-gradient(circle, var(--accent-dim) 0%, transparent 62%);
-    opacity: 0.5;
-    animation: bB 16s ease-in-out infinite alternate;
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
   }
 
-  /* ── grain ── */
-  .grain-overlay {
-    @apply fixed inset-0 pointer-events-none;
-    z-index: 1;
-    opacity: 0.04;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  html {
+    scroll-behavior: smooth;
   }
 
-  /* ── page container ── */
-  .wrap {
-    @apply relative mx-auto max-w-[680px] px-6 sm:px-10;
-    z-index: 3;
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
   }
 
-  /* ── blur-in utility ── */
-  .blur-enter {
-    animation: blur-in 0.9s cubic-bezier(0.22,1,0.36,1) both;
-  }
-  .delay-1 { animation-delay: 0.06s; }
-  .delay-2 { animation-delay: 0.14s; }
-  .delay-3 { animation-delay: 0.22s; }
-  .delay-4 { animation-delay: 0.30s; }
-  .delay-5 { animation-delay: 0.38s; }
-
-  /* ── link card (General page) ── */
-  .link-card {
-    @apply relative flex items-center gap-3.5 sm:gap-4 rounded-[18px] overflow-hidden cursor-pointer;
-    padding: 18px 20px 18px 22px;
-    border: 1px solid var(--stroke);
-    background: var(--card-bg);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    text-decoration: none;
-    color: inherit;
-    transition:
-      transform 500ms cubic-bezier(0.22,1,0.36,1),
-      border-color 350ms ease,
-      box-shadow 350ms ease;
-  }
-  @media (min-width: 600px) {
-    .link-card { padding: 20px 24px; }
-  }
-  .link-card::before {
-    content: "";
-    @apply absolute left-0 top-0 bottom-0 w-[3px] bg-[color:var(--accent)] opacity-0 rounded-l-[18px];
-    transition: opacity 350ms ease;
-  }
-  .link-card::after {
-    content: "";
-    @apply absolute inset-0 rounded-[inherit] opacity-0 pointer-events-none;
-    background: radial-gradient(120% 90% at 90% 10%, var(--accent-dim) 0%, transparent 60%);
-    transition: opacity 350ms ease;
-  }
-  .link-card:hover::before,
-  .link-card:hover::after { @apply opacity-100; }
-  .link-card:hover {
-    transform: translateY(-2px) scale(1.008);
-    border-color: rgba(59,107,224,0.4);
-    box-shadow: 0 18px 44px -16px rgba(59,107,224,0.22);
-  }
-  :root[data-theme="day"] .link-card:hover {
-    border-color: rgba(30,68,187,0.35);
-    box-shadow: 0 18px 44px -16px rgba(30,68,187,0.18);
+  ::selection {
+    background-color: hsl(0 0% 98% / 0.15);
+    color: hsl(0 0% 98%);
   }
 
-  /* icon box */
-  .icon-box {
-    @apply flex-shrink-0 grid place-items-center rounded-xl border border-[color:var(--stroke)]
-           text-[color:var(--accent)];
-    width: 42px; height: 42px;
-    background: rgba(255,255,255,0.04);
-    transition: background 350ms ease;
-  }
-  :root[data-theme="day"] .icon-box { background: rgba(0,0,0,0.04); }
-  .link-card:hover .icon-box { background: var(--accent-dim); }
-
-  /* card tag (platform description) */
-  .card-tag {
-    @apply block font-mono text-[9.5px] uppercase tracking-[0.22em] text-[color:var(--muted)] mb-1.5;
+  ::-webkit-scrollbar {
+    width: 4px;
   }
 
-  /* card handle — changed to JetBrains Mono 600 */
-  .card-handle {
-    @apply block font-mono font-semibold text-[color:var(--fg)]
-           leading-none whitespace-nowrap overflow-hidden text-ellipsis;
-    font-size: clamp(1.05rem, 3vw, 1.35rem);
-    letter-spacing: -0.01em;
-  }
-  .card-handle::before {
-    content: "@";
-    font-weight: 400;
-    color: var(--muted);
-    font-size: 0.78em;
-    letter-spacing: 0;
-    margin-right: 1px;
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
   }
 
-  /* arrow circle */
-  .arrow-box {
-    @apply flex-shrink-0 grid place-items-center rounded-full border border-[color:var(--stroke)]
-           text-[color:var(--muted)];
-    width: 34px; height: 34px;
-    transition:
-      transform 500ms cubic-bezier(0.22,1,0.36,1),
-      color 300ms ease,
-      border-color 300ms ease,
-      background 300ms ease;
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 2px;
   }
-  .link-card:hover .arrow-box {
-    transform: rotate(-45deg); color: var(--accent);
-    border-color: rgba(59,107,224,0.4); background: var(--accent-dim);
-  }
-
-  /* ── contacts page items ── */
-  .contact-item {
-    @apply py-7 border-t border-[color:var(--rule)];
-  }
-  .contact-item:last-child { @apply border-b border-[color:var(--rule)]; }
-
-  .contact-num {
-    @apply block font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--accent)] mb-3;
-  }
-  .contact-platform {
-    @apply font-display font-semibold leading-[1.05] tracking-[-0.015em] text-[color:var(--fg)] m-0 mb-2;
-    font-size: clamp(1.5rem, 4vw, 2rem);
-  }
-
-  /* contact handle — also JetBrains Mono, large and prominent */
-  .contact-handle {
-    @apply flex items-center gap-2 font-mono font-semibold text-[color:var(--accent)] mb-3;
-    font-size: clamp(1rem, 2.8vw, 1.25rem);
-    letter-spacing: -0.01em;
-  }
-  .contact-handle::before {
-    content: "@";
-    font-weight: 400;
-    color: var(--muted);
-    font-size: 0.82em;
-    letter-spacing: 0;
-  }
-
-  .contact-desc {
-    @apply text-[clamp(0.92rem,1.6vw,1rem)] leading-[1.64] text-[color:var(--muted)]
-           font-light max-w-[30em] mb-4;
-    text-wrap: pretty;
-  }
-
-  .contact-link {
-    @apply inline-flex items-center gap-2 font-mono text-[10.5px] uppercase
-           tracking-[0.18em] text-[color:var(--muted)]
-           border-b border-[color:var(--rule)] pb-px
-           transition-colors duration-300;
-  }
-  .contact-link:hover { @apply text-[color:var(--accent)] border-[color:var(--accent)]; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
+/* Architectural grid overlay */
+.grid-overlay {
+  background-image:
+    linear-gradient(hsl(0 0% 100% / 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(0 0% 100% / 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Noise texture */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Scan line effect */
+.scanline::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    hsl(0 0% 0% / 0.03) 2px,
+    hsl(0 0% 0% / 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
 }
