@@ -1,18 +1,16 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, HTMLMotionProps } from "framer-motion";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface WordRotateProps {
   words: string[];
   duration?: number;
-  framerProps?: {
-    initial?: object;
-    animate?: object;
-    exit?: object;
-    transition?: object;
-  };
+  framerProps?: Omit<
+    HTMLMotionProps<"span">,
+    "ref" | "children" | "key" | "className"
+  >;
   className?: string;
 }
 
