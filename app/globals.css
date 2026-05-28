@@ -4,75 +4,176 @@
 
 @layer base {
   :root {
-    --bg: #06070b;
-    --fg: #e7e9ee;
-    --muted: #7a8090;
-    --surface: rgba(255, 255, 255, 0.04);
-    --stroke: rgba(255, 255, 255, 0.08);
-    --accent: #7dd3fc;
+    --bg: #0f0d0a;
+    --bg-soft: #16130f;
+    --fg: #ece6d8;
+    --muted: #8a8275;
+    --muted-2: #5d564b;
+    --stroke: rgba(236, 230, 216, 0.085);
+    --stroke-strong: rgba(236, 230, 216, 0.22);
+    --accent: #d2724b;
+    --accent-soft: rgba(210, 114, 75, 0.22);
+    --rule: rgba(236, 230, 216, 0.12);
   }
-
   :root[data-theme="day"] {
-    --bg: #f4efe7;
-    --fg: #15130f;
+    --bg: #ece4d2;
+    --bg-soft: #e2d8c0;
+    --fg: #1c1814;
     --muted: #6b6357;
-    --surface: #ffffff;
-    --stroke: rgba(20, 18, 15, 0.08);
-    --accent: #d97757;
+    --muted-2: #8a8275;
+    --stroke: rgba(28, 24, 20, 0.085);
+    --stroke-strong: rgba(28, 24, 20, 0.24);
+    --accent: #b95a3a;
+    --accent-soft: rgba(185, 90, 58, 0.18);
+    --rule: rgba(28, 24, 20, 0.14);
   }
 
   html,
   body {
     background: var(--bg);
     color: var(--fg);
-    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+    font-feature-settings: "ss01", "ss02", "ss03";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition:
-      background-color 600ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 600ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 800ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 800ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   ::selection {
     background: var(--accent);
     color: var(--bg);
   }
+
+  @keyframes pulseRing {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+    50% { box-shadow: 0 0 0 8px transparent; }
+  }
 }
 
-@layer utilities {
-  .grain::before {
-    content: "";
+@layer components {
+  .grain-overlay {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 50;
+    z-index: 1;
     opacity: 0.05;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 
-  .card-surface {
-    background: var(--surface);
-    border: 1px solid var(--stroke);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-[color:var(--stroke)] px-3.5 py-1.5 font-mono text-[11px] text-[color:var(--muted)];
+  }
+  .pill svg { @apply size-3 opacity-70; }
+
+  .pulse-dot {
+    @apply inline-block size-1.5 rounded-full bg-[color:var(--accent)];
+    animation: pulseRing 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
-  .glow-tg {
-    box-shadow:
-      0 0 0 1px rgba(56, 139, 253, 0.12),
-      0 30px 60px -30px rgba(56, 139, 253, 0.45);
+  .section-rule {
+    @apply flex-1 self-center h-px bg-[color:var(--rule)];
   }
 
-  .glow-th {
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.08),
-      0 30px 60px -30px rgba(255, 255, 255, 0.18);
+  /* Bleed-out helper: image breaks out of the max-width container to span the viewport. */
+  .bleed {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    max-width: 100vw;
   }
 
-  .glow-gh {
-    box-shadow:
-      0 0 0 1px rgba(155, 140, 255, 0.12),
-      0 30px 60px -30px rgba(155, 140, 255, 0.4);
+  .prose-content p {
+    margin-bottom: 1.05em;
+    text-wrap: pretty;
+  }
+  .prose-content p:last-child { margin-bottom: 0; }
+  .prose-content em.k {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  /* Contact row — minimal editorial pattern */
+  .contact-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: baseline;
+    gap: 20px;
+    padding: 22px 4px;
+    border-top: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+    transition: padding-left 480ms cubic-bezier(0.22, 1, 0.36, 1);
+    text-decoration: none;
+    color: inherit;
+  }
+  .contact-row:last-of-type { border-bottom: 1px solid var(--rule); }
+  .contact-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    opacity: 0.18;
+    transition: width 480ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .contact-row:hover::before { width: 100%; }
+  .contact-row:hover { padding-left: 18px; }
+  .contact-row .c-num {
+    font-family: var(--font-mono), monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    align-self: center;
+  }
+  .contact-row .c-name {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-style: italic;
+    line-height: 1;
+    color: var(--fg);
+  }
+  .contact-row .c-handle {
+    font-family: var(--font-mono), monospace;
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+    transition: color 320ms ease;
+  }
+  .contact-row .c-arrow {
+    width: 18px;
+    height: 18px;
+    color: var(--muted);
+    transition:
+      transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 320ms ease;
+  }
+  .contact-row:hover .c-arrow {
+    color: var(--accent);
+    transform: translate(3px, -3px);
+  }
+  .contact-row:hover .c-handle { color: var(--fg); }
+
+  @media (max-width: 620px) {
+    .contact-row { grid-template-columns: auto 1fr auto; gap: 14px; }
+    .contact-row .c-handle { grid-column: 2 / -1; grid-row: 2; padding-top: 4px; }
+    .contact-row .c-arrow { grid-row: 1; grid-column: 3; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }

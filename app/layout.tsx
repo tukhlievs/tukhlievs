@@ -1,12 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
+import { Fraunces, Onest, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
+const fraunces = Fraunces({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  variable: "--font-display",
+  style: ["normal", "italic"],
+  weight: ["300", "400", "500"],
+  display: "swap",
+});
+
+const onest = Onest({
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  variable: "--font-body",
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-mono",
+  weight: ["400", "500"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tukhlievs.vercel.app"),
+  metadataBase: new URL("https://tukhlievs.github.io/tukhlievs/"),
   title: {
-    default: "Абубакир Тухлиев — AI & Software Engineer (в процессе)",
+    default: "Абубакир Тухлиев — Personal page",
     template: "%s · Abubakir Tukhliev",
   },
   description:
@@ -27,8 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "profile",
     locale: "ru_RU",
-    alternateLocale: ["en_US"],
-    title: "Абубакир Тухлиев — AI & Software Engineer (в процессе)",
+    title: "Абубакир Тухлиев — Personal page",
     description:
       "16 лет. Коканд, Узбекистан. Python, AI/ML, frontend. Telegram · Threads · GitHub.",
     siteName: "tukhlievs",
@@ -38,16 +58,13 @@ export const metadata: Metadata = {
     title: "Абубакир Тухлиев",
     description: "Python · AI/ML · Software Engineer in progress",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4efe7" },
-    { media: "(prefers-color-scheme: dark)", color: "#06070b" },
+    { media: "(prefers-color-scheme: light)", color: "#ece4d2" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0d0a" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -59,10 +76,10 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${fraunces.variable} ${onest.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen antialiased grain">{children}</body>
+      <body className="min-h-screen antialiased">{children}</body>
     </html>
   );
 }

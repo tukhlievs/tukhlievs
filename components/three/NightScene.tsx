@@ -4,104 +4,91 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const STAR_COUNT = 1800;
-const CITY_COUNT = 64;
+const DUST_COUNT = 380;
 
 /**
- * Deep night sky: drifting starfield + wireframe city grid on the horizon.
+ * Night atmosphere: a single low-poly wireframe icosahedron drifting
+ * off-axis, surrounded by a sparse field of slow-rising dust particles.
+ * Calmer and more intentional than a scattered starfield + city silhouette —
+ * the form is the subject, not the chrome.
  */
 export function NightScene(): JSX.Element {
-  const starGeo = useMemo(() => {
-    const positions = new Float32Array(STAR_COUNT * 3);
-    for (let i = 0; i < STAR_COUNT; i++) {
-      const r = 18 + Math.random() * 22;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = r * Math.cos(phi) * 0.6 + 4;
-      positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return geo;
+  const icosaRef = useRef<THREE.LineSegments>(null);
+  const glowRef = useRef<THREE.Mesh>(null);
+  const dustRef = useRef<THREE.Points>(null);
+
+  const edgesGeo = useMemo(() => {
+    const base = new THREE.IcosahedronGeometry(2.6, 1);
+    return new THREE.EdgesGeometry(base, 12);
   }, []);
 
-  const city = useMemo(() => {
-    const items: Array<{ x: number; z: number; h: number; w: number }> = [];
-    for (let i = 0; i < CITY_COUNT; i++) {
-      const x = (Math.random() - 0.5) * 40;
-      const z = -8 - Math.random() * 22;
-      const h = 0.6 + Math.random() * 4.5;
-      const w = 0.45 + Math.random() * 0.9;
-      items.push({ x, z, h, w });
+  const glowGeo = useMemo(() => new THREE.IcosahedronGeometry(2.55, 2), []);
+
+  const dustGeo = useMemo(() => {
+    const positions = new Float32Array(DUST_COUNT * 3);
+    for (let i = 0; i < DUST_COUNT; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 18;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 12;
+      positions[i * 3 + 2] = -1 - Math.random() * 14;
     }
-    return items;
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    return g;
   }, []);
 
-  const starsRef = useRef<THREE.Points>(null);
-  const cityRef = useRef<THREE.Group>(null);
-
-  useFrame((_, delta) => {
-    if (starsRef.current) starsRef.current.rotation.y += delta * 0.012;
-    if (cityRef.current) cityRef.current.rotation.y = Math.sin(performance.now() * 0.00008) * 0.05;
+  useFrame((state, dt) => {
+    const t = state.clock.elapsedTime;
+    if (icosaRef.current) {
+      icosaRef.current.rotation.y += dt * 0.08;
+      icosaRef.current.rotation.x += dt * 0.04;
+      icosaRef.current.position.x = 2.4 + Math.sin(t * 0.15) * 0.15;
+      icosaRef.current.position.y = -0.3 + Math.cos(t * 0.1) * 0.18;
+    }
+    if (glowRef.current && icosaRef.current) {
+      glowRef.current.rotation.copy(icosaRef.current.rotation);
+      glowRef.current.position.copy(icosaRef.current.position);
+    }
+    if (dustRef.current) {
+      const pos = dustRef.current.geometry.attributes.position;
+      if (pos) {
+        for (let i = 0; i < DUST_COUNT; i++) {
+          const idx = i * 3 + 1;
+          pos.array[idx] += dt * (0.04 + (i % 7) * 0.005);
+          if (pos.array[idx]! > 6) pos.array[idx] = -6;
+        }
+        pos.needsUpdate = true;
+      }
+    }
   });
 
   return (
     <>
-      <color attach="background" args={["#06070b"]} />
-      <fog attach="fog" args={["#06070b", 14, 48]} />
+      <color attach="background" args={["#0f0d0a"]} />
+      <fog attach="fog" args={["#0f0d0a", 10, 26]} />
+      <ambientLight intensity={0.4} />
 
-      <ambientLight intensity={0.25} />
-      <directionalLight position={[6, 8, 4]} intensity={0.35} color="#9ec5ff" />
+      <lineSegments ref={icosaRef} geometry={edgesGeo} position={[2.4, -0.3, -1]}>
+        <lineBasicMaterial color="#ece6d8" transparent opacity={0.32} />
+      </lineSegments>
 
-      {/* horizon glow */}
-      <mesh position={[0, -2.4, -18]}>
-        <planeGeometry args={[80, 6, 1, 1]} />
+      <mesh ref={glowRef} geometry={glowGeo} position={[2.4, -0.3, -1]}>
         <meshBasicMaterial
-          color="#7dd3fc"
+          color="#d2724b"
           transparent
-          opacity={0.08}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
+          opacity={0.04}
+          side={THREE.BackSide}
         />
       </mesh>
 
-      {/* starfield */}
-      <points ref={starsRef} geometry={starGeo}>
+      <points ref={dustRef} geometry={dustGeo}>
         <pointsMaterial
-          size={0.045}
-          sizeAttenuation
-          color="#dfe6f5"
+          size={0.035}
+          color="#ece6d8"
           transparent
-          opacity={0.85}
+          opacity={0.55}
           depthWrite={false}
         />
       </points>
-
-      {/* wireframe city silhouette */}
-      <group ref={cityRef} position={[0, -2, 0]}>
-        {city.map((b, i) => (
-          <mesh key={i} position={[b.x, b.h / 2 - 0.6, b.z]}>
-            <boxGeometry args={[b.w, b.h, b.w]} />
-            <meshBasicMaterial
-              color="#7dd3fc"
-              wireframe
-              transparent
-              opacity={0.28}
-            />
-          </mesh>
-        ))}
-        {/* ground line */}
-        <mesh position={[0, -0.6, -14]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[80, 28, 1, 1]} />
-          <meshBasicMaterial
-            color="#0b1220"
-            transparent
-            opacity={0.6}
-            depthWrite={false}
-          />
-        </mesh>
-      </group>
     </>
   );
 }
