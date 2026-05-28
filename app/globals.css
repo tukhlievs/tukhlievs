@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #06070b;
+    --fg: #e7e9ee;
+    --muted: #7a8090;
+    --surface: rgba(255, 255, 255, 0.04);
+    --stroke: rgba(255, 255, 255, 0.08);
+    --accent: #7dd3fc;
+  }
+
+  :root[data-theme="day"] {
+    --bg: #f4efe7;
+    --fg: #15130f;
+    --muted: #6b6357;
+    --surface: #ffffff;
+    --stroke: rgba(20, 18, 15, 0.08);
+    --accent: #d97757;
+  }
+
+  html,
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg);
+  }
+}
+
+@layer utilities {
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .card-surface {
+    background: var(--surface);
+    border: 1px solid var(--stroke);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glow-tg {
+    box-shadow:
+      0 0 0 1px rgba(56, 139, 253, 0.12),
+      0 30px 60px -30px rgba(56, 139, 253, 0.45);
+  }
+
+  .glow-th {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 30px 60px -30px rgba(255, 255, 255, 0.18);
+  }
+
+  .glow-gh {
+    box-shadow:
+      0 0 0 1px rgba(155, 140, 255, 0.12),
+      0 30px 60px -30px rgba(155, 140, 255, 0.4);
+  }
+}
