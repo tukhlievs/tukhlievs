@@ -5,22 +5,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-body)", "system-ui", "sans-serif"],
-        body: ["var(--font-body)", "system-ui", "sans-serif"],
+        sans:    ["var(--font-body)", "system-ui", "sans-serif"],
+        body:    ["var(--font-body)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "Georgia", "serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
-      },
-      colors: {
-        ink: {
-          bg: "#0f0d0a",
-          fg: "#ece6d8",
-          accent: "#d2724b",
-        },
-        sand: {
-          bg: "#ece4d2",
-          fg: "#1c1814",
-          accent: "#b95a3a",
-        },
+        mono:    ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       transitionTimingFunction: {
         smooth: "cubic-bezier(0.22, 1, 0.36, 1)",

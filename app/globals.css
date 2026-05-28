@@ -4,28 +4,31 @@
 
 @layer base {
   :root {
-    --bg: #0f0d0a;
-    --bg-soft: #16130f;
-    --fg: #ece6d8;
-    --muted: #8a8275;
-    --muted-2: #5d564b;
-    --stroke: rgba(236, 230, 216, 0.085);
-    --stroke-strong: rgba(236, 230, 216, 0.22);
-    --accent: #d2724b;
-    --accent-soft: rgba(210, 114, 75, 0.22);
-    --rule: rgba(236, 230, 216, 0.12);
+    --bg:          #0C0A08;
+    --bg-2:        #131009;
+    --fg:          #EBE4D6;
+    --muted:       #6A6157;
+    --muted-2:     #3D3830;
+    --accent:      #3B6BE0;
+    --accent-2:    #2453C4;
+    --accent-soft: rgba(59, 107, 224, 0.14);
+    --stroke:      rgba(235, 228, 214, 0.08);
+    --rule:        rgba(235, 228, 214, 0.11);
+    --bloom:       rgba(59, 107, 224, 0.11);
   }
+
   :root[data-theme="day"] {
-    --bg: #ece4d2;
-    --bg-soft: #e2d8c0;
-    --fg: #1c1814;
-    --muted: #6b6357;
-    --muted-2: #8a8275;
-    --stroke: rgba(28, 24, 20, 0.085);
-    --stroke-strong: rgba(28, 24, 20, 0.24);
-    --accent: #b95a3a;
-    --accent-soft: rgba(185, 90, 58, 0.18);
-    --rule: rgba(28, 24, 20, 0.14);
+    --bg:          #F0EAD9;
+    --bg-2:        #E6DEC8;
+    --fg:          #110E09;
+    --muted:       #726855;
+    --muted-2:     #A8977F;
+    --accent:      #1E44BB;
+    --accent-2:    #163298;
+    --accent-soft: rgba(30, 68, 187, 0.10);
+    --stroke:      rgba(17, 14, 9, 0.09);
+    --rule:        rgba(17, 14, 9, 0.13);
+    --bloom:       rgba(30, 68, 187, 0.07);
   }
 
   html,
@@ -33,12 +36,12 @@
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-body), system-ui, -apple-system, sans-serif;
-    font-feature-settings: "ss01", "ss02", "ss03";
+    font-weight: 300;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition:
-      background-color 800ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 800ms cubic-bezier(0.22, 1, 0.36, 1);
+      background-color 900ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 900ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   ::selection {
@@ -46,132 +49,176 @@
     color: var(--bg);
   }
 
-  @keyframes pulseRing {
-    0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
-    50% { box-shadow: 0 0 0 8px transparent; }
+  @keyframes bloom-a {
+    0%   { transform: translate(0, 0)   scale(1); }
+    100% { transform: translate(4%, 6%) scale(1.08); }
+  }
+  @keyframes bloom-b {
+    0%   { transform: translate(0, 0)    scale(1); }
+    100% { transform: translate(-5%, 4%) scale(1.06); }
+  }
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 1;    box-shadow: 0 0 0 0 var(--accent-soft); }
+    50%       { opacity: 0.75; box-shadow: 0 0 0 6px transparent; }
+  }
+  @keyframes scroll-hint {
+    0%, 100% { opacity: 0.5; transform: translateY(0); }
+    50%       { opacity: 1;   transform: translateY(4px); }
   }
 }
 
 @layer components {
+  /* ── CSS-only atmospheric background ── */
+  .atmosphere {
+    @apply fixed inset-0 z-0 pointer-events-none overflow-hidden;
+  }
+  .atmosphere::before,
+  .atmosphere::after {
+    content: "";
+    @apply absolute rounded-full;
+  }
+  .atmosphere::before {
+    width: 90vmax; height: 90vmax;
+    top: -40vmax; right: -30vmax;
+    background: radial-gradient(circle, var(--bloom) 0%, transparent 65%);
+    animation: bloom-a 18s ease-in-out infinite alternate;
+  }
+  .atmosphere::after {
+    width: 60vmax; height: 60vmax;
+    bottom: -25vmax; left: -15vmax;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 60%);
+    opacity: 0.55;
+    animation: bloom-b 14s ease-in-out infinite alternate;
+  }
+
+  /* ── grain overlay ── */
   .grain-overlay {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+    @apply fixed inset-0 pointer-events-none;
     z-index: 1;
-    opacity: 0.05;
+    opacity: 0.045;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 
-  .pill {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-[color:var(--stroke)] px-3.5 py-1.5 font-mono text-[11px] text-[color:var(--muted)];
+  /* ── page container ── */
+  .page-wrap {
+    @apply relative mx-auto max-w-[1040px] px-8;
+    z-index: 3;
   }
+
+  /* ── pill ── */
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-[color:var(--stroke)]
+           px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em]
+           text-[color:var(--muted)] transition-colors duration-300;
+  }
+  .pill:hover { border-color: var(--accent); }
   .pill svg { @apply size-3 opacity-70; }
 
-  .pulse-dot {
+  /* ── live dot ── */
+  .live-dot {
     @apply inline-block size-1.5 rounded-full bg-[color:var(--accent)];
-    animation: pulseRing 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: dot-pulse 2.8s ease-in-out infinite;
   }
 
-  .section-rule {
-    @apply flex-1 self-center h-px bg-[color:var(--rule)];
+  /* ── section rule line (desktop spacer between heading and eyebrow) ── */
+  .section-rule-line {
+    @apply hidden sm:block self-center flex-none h-px w-8 bg-[color:var(--rule)];
   }
 
-  /* Bleed-out helper: image breaks out of the max-width container to span the viewport. */
+  /* ── full-bleed image ── */
   .bleed {
+    @apply m-0 overflow-hidden;
     position: relative;
     left: 50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
     width: 100vw;
-    max-width: 100vw;
+    height: clamp(220px, 42vw, 600px);
+  }
+  .bleed img {
+    @apply block w-full h-full;
+    object-fit: cover;
+    object-position: center 40%;
+    filter: saturate(0.88) contrast(1.04);
+  }
+  .bleed figcaption {
+    @apply absolute bottom-0 left-0 right-0 px-8 py-5 flex items-center gap-2.5
+           font-mono text-[10.5px] uppercase tracking-[0.2em];
+    background: linear-gradient(to top, rgba(12,10,8,0.72) 0%, transparent 100%);
+    color: rgba(235, 228, 214, 0.7);
+  }
+  :root[data-theme="day"] .bleed figcaption {
+    background: linear-gradient(to top, rgba(240,234,217,0.72) 0%, transparent 100%);
+    color: rgba(17, 14, 9, 0.55);
+  }
+  .bleed figcaption::before {
+    content: "▢";
+    @apply text-[9px] text-[color:var(--accent)] flex-shrink-0;
   }
 
-  .prose-content p {
-    margin-bottom: 1.05em;
-    text-wrap: pretty;
+  /* ── frame image ── */
+  .frame-img {
+    @apply relative m-0;
   }
-  .prose-content p:last-child { margin-bottom: 0; }
-  .prose-content em.k {
-    font-style: normal;
-    color: var(--accent);
+  .frame-img img {
+    @apply block w-full h-auto;
+    filter: saturate(0.88) contrast(1.04);
+  }
+  .frame-img .mark {
+    @apply absolute -bottom-2.5 -left-2.5 border border-[color:var(--stroke)]
+           bg-[color:var(--bg)] px-2 py-0.5 font-mono text-[10px]
+           uppercase tracking-[0.2em] text-[color:var(--muted)];
   }
 
-  /* Contact row — minimal editorial pattern */
+  /* ── contact row ── */
   .contact-row {
-    display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    align-items: baseline;
-    gap: 20px;
-    padding: 22px 4px;
-    border-top: 1px solid var(--rule);
-    position: relative;
-    overflow: hidden;
-    transition: padding-left 480ms cubic-bezier(0.22, 1, 0.36, 1);
-    text-decoration: none;
+    @apply relative overflow-hidden grid items-baseline py-[22px]
+           border-t border-[color:var(--rule)];
+    grid-template-columns: 40px 1fr auto auto;
+    gap: 0 20px;
     color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: padding-left 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .contact-row:last-of-type { border-bottom: 1px solid var(--rule); }
+  .contact-row:last-child { @apply border-b border-[color:var(--rule)]; }
   .contact-row::before {
     content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 0;
-    background: var(--accent);
-    opacity: 0.18;
-    transition: width 480ms cubic-bezier(0.22, 1, 0.36, 1);
+    @apply absolute left-0 top-0 bottom-0 w-0 bg-[color:var(--accent)];
+    opacity: 0.12;
+    transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   .contact-row:hover::before { width: 100%; }
-  .contact-row:hover { padding-left: 18px; }
-  .contact-row .c-num {
-    font-family: var(--font-mono), monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    align-self: center;
-  }
-  .contact-row .c-name {
-    font-family: var(--font-display), Georgia, serif;
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    font-style: italic;
-    line-height: 1;
-    color: var(--fg);
-  }
-  .contact-row .c-handle {
-    font-family: var(--font-mono), monospace;
-    font-size: 13px;
-    color: var(--muted);
-    white-space: nowrap;
-    transition: color 320ms ease;
-  }
-  .contact-row .c-arrow {
-    width: 18px;
-    height: 18px;
-    color: var(--muted);
-    transition:
-      transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 320ms ease;
-  }
-  .contact-row:hover .c-arrow {
-    color: var(--accent);
-    transform: translate(3px, -3px);
-  }
-  .contact-row:hover .c-handle { color: var(--fg); }
+  .contact-row:hover { padding-left: 16px; }
 
-  @media (max-width: 620px) {
-    .contact-row { grid-template-columns: auto 1fr auto; gap: 14px; }
-    .contact-row .c-handle { grid-column: 2 / -1; grid-row: 2; padding-top: 4px; }
-    .contact-row .c-arrow { grid-row: 1; grid-column: 3; }
+  .contact-row .c-n {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em]
+           text-[color:var(--accent)] self-center;
+  }
+  .contact-row .c-p {
+    @apply font-display font-normal italic leading-none text-[color:var(--fg)];
+    font-size: clamp(1.6rem, 3.8vw, 2.2rem);
+  }
+  .contact-row .c-h {
+    @apply font-mono text-[12.5px] tracking-[0.12em] whitespace-nowrap
+           text-[color:var(--muted)] transition-colors duration-300;
+  }
+  .contact-row:hover .c-h { color: var(--fg); }
+  .contact-row .c-a {
+    @apply size-[18px] text-[color:var(--muted)] flex-shrink-0
+           transition-[transform,color] duration-500;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease;
+  }
+  .contact-row:hover .c-a {
+    transform: translate(3px, -3px);
+    color: var(--accent);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;

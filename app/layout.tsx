@@ -1,16 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Onest, JetBrains_Mono } from "next/font/google";
+import { Playfair_Display, Figtree, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const playfair = Playfair_Display({
   subsets: ["latin", "latin-ext"],
   variable: "--font-display",
   style: ["normal", "italic"],
-  weight: ["300", "400", "500"],
+  weight: ["600", "700", "400", "500"],
   display: "swap",
 });
 
-const onest = Onest({
+const figtree = Figtree({
   subsets: ["latin", "latin-ext"],
   variable: "--font-body",
   weight: ["300", "400", "500", "600"],
@@ -62,8 +62,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ece4d2" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f0d0a" },
+    { media: "(prefers-color-scheme: light)", color: "#F0EAD9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0C0A08" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -75,7 +75,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${onest.variable} ${jetbrainsMono.variable}`}
+      className={`${playfair.variable} ${figtree.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen antialiased">{children}</body>
