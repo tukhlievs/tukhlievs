@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
+import type { TargetAndTransition, VariantLabels, Transition } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface HyperTextProps {
   text: string;
   duration?: number;
   framerProps?: {
-    initial?: object;
-    animate?: object;
-    transition?: object;
+    initial?: TargetAndTransition | VariantLabels;
+    animate?: TargetAndTransition | VariantLabels;
+    transition?: Transition;
   };
   className?: string;
   animateOnLoad?: boolean;
