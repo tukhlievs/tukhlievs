@@ -1,7 +1,6 @@
 # Salam👋
 
-My name is Abubakir, I'm 16 years old, I'm from Uzbekistan, from the Kokand City.  
-I'm interested in Python and AI. I study Python in my free time. In the future, I want to become a Fullstack Software Engineer.
+My name is Abubakir, I'm from Uzbekistan, from the Kokand City.  
 
 My AI stack:
 
@@ -14,7 +13,7 @@ My AI stack:
 I know: 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=git,github,linux,gcp,docker,aws" />
+    <img src="https://skillicons.dev/icons?i=react,js,ts,html,css" />
   </a>
 </p>
 
