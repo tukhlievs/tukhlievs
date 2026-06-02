@@ -13,7 +13,7 @@ My AI stack:
 I know: 
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=react,js,ts,html,css" />
+    <img src="https://skillicons.dev/icons?i=react,js,ts,html,css,git,aws,bash" />
   </a>
 </p>
 
