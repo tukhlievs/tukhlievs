@@ -1,25 +1,20 @@
-# Salam👋
+# Abubakir Tukhliev
 
-My name is Abubakir, I'm from Uzbekistan, from the Kokand City.  
+Fullstack Developer based in Kokand, Uzbekistan. 26 years old, 2 years of professional experience building web applications from the database up to the interface.
 
-My AI stack:
+My primary stack is React, TypeScript, JavaScript, Next.js, and PostgreSQL. I care about clean architecture, readable code, and products that hold up under real conditions.
 
-![Claude](https://img.shields.io/badge/Claude-D97757?style=for-the-badge&logo=claude&logoColor=white)
-![DeepSeek](https://img.shields.io/badge/DeepSeek-5786FE?style=for-the-badge&logo=deepseek&logoColor=white)
-![Google Gemini](https://img.shields.io/badge/google%20gemini-8E75B2?style=for-the-badge&logo=google%20gemini&logoColor=white)
-![HuggingFace](https://img.shields.io/badge/huggingface-%23FFD21E.svg?style=for-the-badge&logo=huggingface&logoColor=white)
+---
 
+**Stack**
 
-I know: 
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=react,js,ts,html,css,git,aws,bash" />
-  </a>
-</p>
+React · TypeScript · JavaScript · Next.js · PostgreSQL
 
-Also, I have social media.
+---
 
-Telegram (I'm very active here): https://t.me/tukhlievs  
-Threads (I'm active here): https://www.threads.com/@tukhlie.v  
-X: https://x.com/tukhlievs  
-Substack: https://open.substack.com/pub/tkhv
+**Find me**
+
+Telegram — https://t.me/tukhlievs  
+Threads — https://www.threads.com/@tukhlie.v  
+X — https://x.com/tukhlievs  
+Substack — https://open.substack.com/pub/tkhv
