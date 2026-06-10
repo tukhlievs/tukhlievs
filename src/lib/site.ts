@@ -1,3 +1,8 @@
+// Должен совпадать с basePath в next.config.mjs.
+// next/image в static export не префиксует src, поэтому пути к
+// статике из public/ собираем через эту константу.
+export const basePath = "/tukhlievs";
+
 export const site = {
   name: "Abubakir Tukhliev",
   handle: "tukhlievs",

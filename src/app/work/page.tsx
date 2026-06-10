@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { basePath } from "@/lib/site";
 import { projects } from "@/lib/projects";
 import { ProjectCard } from "@/components/ProjectCard";
 
@@ -134,11 +134,14 @@ export default function WorkPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl mx-auto">
             {shots.map((s) => (
               <figure key={s.src} className="text-center">
-                <Image
-                  src={s.src}
+                {/* next/image не префиксует basePath в static export — обычный img */}
+                <img
+                  src={`${basePath}${s.src}`}
                   alt={s.alt}
                   width={390}
                   height={844}
+                  loading="lazy"
+                  decoding="async"
                   className="rounded-2xl border border-border shadow-[0_8px_24px_rgba(11,18,32,0.12)] w-full h-auto"
                 />
                 <figcaption className="mt-3 text-xs font-medium text-muted">
