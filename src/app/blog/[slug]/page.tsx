@@ -40,25 +40,24 @@ export default async function PostPage({
   if (!post) notFound();
 
   return (
-    <article className="py-16 sm:py-24">
+    <article className="max-w-3xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
       <Link
         href="/blog"
-        className="text-sm text-muted hover:text-fg transition-colors"
+        className="text-sm font-medium text-accent hover:underline underline-offset-4"
       >
         ← Blog
       </Link>
 
       <header className="mt-6">
-        <h1 className="text-3xl font-semibold tracking-tight text-balance">
+        <h1 className="text-4xl font-bold tracking-tight text-balance">
           {post.title}
         </h1>
-        <div className="mt-3 flex items-center gap-3 text-sm text-muted">
+        <div className="mt-4 flex items-center gap-3 text-sm text-muted">
           <time>{formatDate(post.publishedAt)}</time>
           {post.tag && (
-            <>
-              <span aria-hidden>·</span>
-              <span>{post.tag}</span>
-            </>
+            <span className="text-xs font-medium text-accent bg-accent-soft rounded-full px-2.5 py-1">
+              {post.tag}
+            </span>
           )}
         </div>
       </header>

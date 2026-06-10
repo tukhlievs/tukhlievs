@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="py-16 sm:py-24">
-      <h1 className="text-3xl font-semibold tracking-tight">About</h1>
+    <div className="max-w-3xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+      <h1 className="text-4xl font-bold tracking-tight">About</h1>
 
-      <div className="mt-8 space-y-5 text-muted leading-relaxed max-w-prose">
+      <div className="mt-8 space-y-5 text-muted leading-relaxed">
         <p>
           I&apos;m Abubakir Tukhliev, a fullstack developer from Kokand,
           Uzbekistan. I build Telegram Mini Apps, bots and small SaaS products
@@ -46,14 +46,14 @@ export default function AboutPage() {
       </div>
 
       <section className="mt-14">
-        <h2 className="text-sm font-medium uppercase tracking-widest text-muted">
+        <h2 className="text-xl font-bold tracking-tight">
           Technologies I use
         </h2>
-        <ul className="mt-5 flex flex-wrap gap-2">
+        <ul className="mt-5 flex flex-wrap gap-2.5">
           {stack.map((item) => (
             <li
               key={item}
-              className="text-sm text-fg/80 border border-border rounded-lg px-3 py-1.5"
+              className="text-sm font-medium text-fg/80 border border-border bg-white rounded-full px-4 py-2"
             >
               {item}
             </li>
@@ -62,9 +62,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mt-14">
-        <h2 className="text-sm font-medium uppercase tracking-widest text-muted">
-          Now
-        </h2>
+        <h2 className="text-xl font-bold tracking-tight">Now</h2>
         <ul className="mt-5 space-y-2 text-muted text-sm leading-relaxed">
           <li>— Shipping minisound improvements</li>
           <li>— Python fundamentals → ML/AI engineering roadmap</li>

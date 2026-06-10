@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { site } from "@/lib/site";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import "./globals.css";
@@ -34,16 +33,9 @@ export const metadata: Metadata = {
   },
 };
 
-// Инлайн-скрипт ставит класс темы до первой отрисовки — без мигания
-const themeScript = `
-(function () {
-  try {
-    var saved = localStorage.getItem("theme");
-    var dark = saved ? saved === "dark" : true;
-    if (dark) document.documentElement.classList.add("dark");
-  } catch (e) {}
-})();
-`;
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+};
 
 export default function RootLayout({
   children,
@@ -51,18 +43,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="en">
       <body className={`${inter.variable} min-h-dvh flex flex-col`}>
-        <ThemeProvider>
-          <Header />
-          <main className="flex-1 w-full max-w-2xl mx-auto px-5 sm:px-6">
-            {children}
-          </main>
-          <Footer />
-        </ThemeProvider>
+        <Header />
+        <main className="flex-1 w-full">{children}</main>
+        <Footer />
       </body>
     </html>
   );
