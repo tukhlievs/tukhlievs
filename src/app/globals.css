@@ -1,21 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #fafafa;
-  --fg: #0a0a0a;
-  --muted: #6b7280;
-  --border: #e5e5e5;
+  --bg: #ffffff;
+  --fg: #0b1220;
+  --muted: #5b6478;
+  --border: #e4e8f1;
   --card: #ffffff;
-  --accent: #3b82f6;
-}
-
-.dark {
-  --bg: #0a0a0a;
-  --fg: #f5f5f5;
-  --muted: #9ca3af;
-  --border: #262626;
-  --card: #141414;
-  --accent: #60a5fa;
+  --accent: #2563eb;
+  --accent-soft: #eef4ff;
 }
 
 @theme inline {
@@ -25,6 +17,7 @@
   --color-border: var(--border);
   --color-card: var(--card);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
 }
@@ -34,11 +27,14 @@ html {
 }
 
 body {
-  background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  /* Мягкая голубая атмосфера поверх белого — без резких градиентов */
+  background:
+    radial-gradient(1100px 520px at 85% -8%, rgba(59, 130, 246, 0.12), transparent 60%),
+    radial-gradient(900px 480px at -12% 12%, rgba(37, 99, 235, 0.07), transparent 55%),
+    var(--bg);
 }
 
 ::selection {
@@ -46,13 +42,69 @@ body {
   color: #fff;
 }
 
-/* Прозa внутри MDX-постов: спокойная типографика без плагина typography */
+/* Градиентный текст для акцента в hero */
+.text-gradient {
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Каскадное появление hero при загрузке (чистый CSS) */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.fade-up.d1 {
+  animation-delay: 90ms;
+}
+.fade-up.d2 {
+  animation-delay: 180ms;
+}
+.fade-up.d3 {
+  animation-delay: 270ms;
+}
+
+/* Появление секций при скролле (компонент Reveal) */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Проза внутри MDX-постов */
 .prose-mini {
   line-height: 1.75;
 }
 .prose-mini h2 {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 2rem 0 0.75rem;
 }
 .prose-mini h3 {
@@ -69,14 +121,14 @@ body {
   text-underline-offset: 3px;
 }
 .prose-mini code {
-  background: var(--card);
+  background: var(--accent-soft);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.15em 0.4em;
   font-size: 0.875em;
 }
 .prose-mini pre {
-  background: var(--card);
+  background: #f6f8fc;
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1rem;

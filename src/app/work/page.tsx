@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 
 export default function WorkPage() {
   return (
-    <div className="py-16 sm:py-24">
-      <h1 className="text-3xl font-semibold tracking-tight">Work</h1>
-      <p className="mt-4 text-muted leading-relaxed max-w-prose">
+    <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
+      <h1 className="text-4xl font-bold tracking-tight">Work</h1>
+      <p className="mt-4 text-lg text-muted leading-relaxed max-w-2xl">
         Things I&apos;ve built and shipped. Most run serverless on Cloudflare,
         store data in Supabase, and live inside Telegram.
       </p>
 
-      <div className="mt-10 grid gap-4">
+      <div className="mt-10 grid sm:grid-cols-2 gap-5">
         {projects.map((p) => (
           <ProjectCard key={p.slug} project={p} />
         ))}
