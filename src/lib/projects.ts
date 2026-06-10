@@ -20,7 +20,7 @@ export const projects: Project[] = [
       "Music streaming inside Telegram — a private channel as storage, a Cloudflare Worker as the streaming proxy, Supabase for metadata.",
     tech: ["TypeScript", "Cloudflare Workers", "Supabase", "Telegram Bot API"],
     link: "https://minisound.abutukhliev.workers.dev",
-    screenshot: "/projects/minisound/home.webp",
+    screenshot: "/projects/minisound/card.webp",
     status: "active",
   },
 ];

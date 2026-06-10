@@ -1,6 +1,6 @@
 import activity from "@/data/activity.json";
 
-const WEEKS = 26;
+const WEEKS = 12;
 const DAY_MS = 864e5;
 
 // Шкала интенсивности: от почти белого к фирменному синему
@@ -66,12 +66,12 @@ export function ActivityGraph() {
       <div className="flex items-baseline justify-between gap-3 flex-wrap">
         <h3 className="font-semibold text-fg">Commit activity</h3>
         <span className="text-xs text-muted">
-          {activity.total} commits · last 6 months · all repos
+          {activity.total} commits · last 12 weeks · all repos
         </span>
       </div>
 
       <div className="mt-4 overflow-x-auto">
-        <div className="min-w-[560px]">
+        <div className="min-w-[420px]">
           {/* Подписи месяцев */}
           <div className="relative h-4 mb-1 text-[10px] text-muted">
             {months.map((m) => (
