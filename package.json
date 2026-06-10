@@ -1,8 +1,28 @@
 {
   "name": "tukhlievs",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-static.mjs"
+    "dev": "next dev",
+    "prebuild": "node scripts/decode-assets.mjs && node scripts/fetch-activity.mjs && node scripts/fetch-telegram.mjs",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "next": "^16.0.10",
+    "next-mdx-remote": "^6.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.3",
+    "three": "^0.182.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/node": "^20.17.30",
+    "@types/three": "^0.182.0",
+    "@types/react": "^19.2.4",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3"
   }
 }
