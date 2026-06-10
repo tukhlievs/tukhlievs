@@ -1,123 +1,135 @@
-import {
-  Heading,
-  Text,
-  Button,
-  Avatar,
-  RevealFx,
-  Column,
-  Badge,
-  Row,
-  Schema,
-  Meta,
-  Line,
-} from "@once-ui-system/core";
-import { home, about, person, baseURL, routes } from "@/resources";
-import { Posts } from "@/components/blog/Posts";
+import Link from "next/link";
+import { site, socials, stack } from "@/lib/site";
+import { projects } from "@/lib/projects";
+import { getPosts, formatDate } from "@/lib/posts";
+import { ProjectCard } from "@/components/ProjectCard";
 
-export async function generateMetadata() {
-  return Meta.generate({
-    title: home.title,
-    description: home.description,
-    baseURL: baseURL,
-    path: home.path,
-    image: home.image,
-  });
-}
+export default function HomePage() {
+  const posts = getPosts().slice(0, 3);
+  const featured = projects.slice(0, 2);
 
-export default function Home() {
   return (
-    <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
-      <Schema
-        as="webPage"
-        baseURL={baseURL}
-        path={home.path}
-        title={home.title}
-        description={home.description}
-        image={home.image}
-        author={{
-          name: person.name,
-          url: `${baseURL}${about.path}`,
-          image: person.avatar,
-        }}
-      />
-      <Column fillWidth horizontal="center" gap="m">
-        <Column maxWidth="s" horizontal="center" align="center">
-          {home.featured.display && (
-            <RevealFx
-              fillWidth
-              horizontal="center"
-              paddingTop="16"
-              paddingBottom="32"
-              paddingLeft="12"
+    <div className="py-16 sm:py-24">
+      {/* Hero */}
+      <section>
+        <p className="text-sm text-muted">{site.location}</p>
+        <h1 className="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-balance">
+          {site.name} — Fullstack Developer
+        </h1>
+        <p className="mt-4 text-muted leading-relaxed max-w-prose">
+          Building resilient Telegram Mini Apps, bots and SaaS in the
+          Cloudflare + Supabase ecosystem. Focused on music streaming{" "}
+          <a
+            href="https://t.me/minisound"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
+          >
+            (minisound)
+          </a>{" "}
+          and practical products.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link
+            href="/work"
+            className="inline-flex items-center rounded-lg bg-fg text-bg px-4 py-2 text-sm font-medium hover:opacity-85 transition-opacity"
+          >
+            View work
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center rounded-lg border border-border px-4 py-2 text-sm text-fg hover:border-fg/30 transition-colors"
+          >
+            Get in touch
+          </Link>
+        </div>
+      </section>
+
+      {/* Featured projects */}
+      <section className="mt-20">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-sm font-medium uppercase tracking-widest text-muted">
+            Selected work
+          </h2>
+          <Link href="/work" className="text-sm text-muted hover:text-fg transition-colors">
+            All projects →
+          </Link>
+        </div>
+        <div className="mt-5 grid gap-4">
+          {featured.map((p) => (
+            <ProjectCard key={p.slug} project={p} />
+          ))}
+        </div>
+      </section>
+
+      {/* Stack */}
+      <section className="mt-20">
+        <h2 className="text-sm font-medium uppercase tracking-widest text-muted">
+          Stack
+        </h2>
+        <ul className="mt-5 flex flex-wrap gap-2">
+          {stack.map((item) => (
+            <li
+              key={item}
+              className="text-sm text-fg/80 border border-border rounded-lg px-3 py-1.5"
             >
-              <Badge
-                background="brand-alpha-weak"
-                paddingX="12"
-                paddingY="4"
-                onBackground="neutral-strong"
-                textVariant="label-default-s"
-                arrow={false}
-                href={home.featured.href}
-              >
-                <Row paddingY="2">{home.featured.title}</Row>
-              </Badge>
-            </RevealFx>
-          )}
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
-            <Heading wrap="balance" variant="display-strong-l">
-              {home.headline}
-            </Heading>
-          </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
-              {home.subline}
-            </Text>
-          </RevealFx>
-          <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
-            <Button
-              id="about"
-              data-border="rounded"
-              href={about.path}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
-            >
-              <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
-                  />
-                )}
-                {about.title}
-              </Row>
-            </Button>
-          </RevealFx>
-        </Column>
-      </Column>
-      {routes["/blog"] && (
-        <Column fillWidth gap="24" marginTop="l" marginBottom="l">
-          <Row fillWidth paddingRight="64">
-            <Line maxWidth={48} />
-          </Row>
-          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
-              <Heading as="h2" variant="display-strong-xs" wrap="balance">
-                Latest from the blog
-              </Heading>
-            </Row>
-            <Row flex={3} paddingX="20">
-              <Posts range={[1, 2]} columns="2" />
-            </Row>
-          </Row>
-          <Row fillWidth paddingLeft="64" horizontal="end">
-            <Line maxWidth={48} />
-          </Row>
-        </Column>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Latest posts */}
+      {posts.length > 0 && (
+        <section className="mt-20">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-sm font-medium uppercase tracking-widest text-muted">
+              Writing
+            </h2>
+            <Link href="/blog" className="text-sm text-muted hover:text-fg transition-colors">
+              All posts →
+            </Link>
+          </div>
+          <ul className="mt-5 divide-y divide-border">
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="flex items-baseline justify-between gap-4 py-3.5 group"
+                >
+                  <span className="text-fg group-hover:text-accent transition-colors">
+                    {post.title}
+                  </span>
+                  <time className="text-sm text-muted shrink-0">
+                    {formatDate(post.publishedAt)}
+                  </time>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
-    </Column>
+
+      {/* Socials */}
+      <section className="mt-20">
+        <h2 className="text-sm font-medium uppercase tracking-widest text-muted">
+          Elsewhere
+        </h2>
+        <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {socials.map((s) => (
+            <li key={s.label}>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted hover:text-fg transition-colors"
+              >
+                {s.label} ↗
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
   );
 }
