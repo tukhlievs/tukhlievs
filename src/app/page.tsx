@@ -2,10 +2,10 @@ import Link from "next/link";
 import { site, socials, stack } from "@/lib/site";
 import { projects } from "@/lib/projects";
 import { getPosts, formatDate } from "@/lib/posts";
-import { tiers, orderContact } from "@/lib/services";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Hero3D } from "@/components/Hero3D";
 import { Reveal } from "@/components/Reveal";
+import { ServicesCarousel } from "@/components/ServicesCarousel";
 
 export default function HomePage() {
   const posts = getPosts().slice(0, 3);
@@ -94,38 +94,8 @@ export default function HomePage() {
                 Full details →
               </Link>
             </div>
-            <div className="mt-6 grid sm:grid-cols-3 gap-4">
-              {tiers.map((tier) => (
-                <a
-                  key={tier.slug}
-                  href={`${orderContact}?text=${encodeURIComponent(`Hi! I'd like to order the ${tier.name} package (${tier.price}).`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`group rounded-2xl border bg-white p-5 transition-[box-shadow,border-color] shadow-[0_1px_2px_rgba(11,18,32,0.04),0_8px_24px_rgba(37,99,235,0.06)] hover:shadow-[0_2px_4px_rgba(11,18,32,0.05),0_14px_36px_rgba(37,99,235,0.14)] ${
-                    tier.highlighted
-                      ? "border-accent/40"
-                      : "border-border hover:border-accent/30"
-                  }`}
-                >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <h3 className="font-semibold text-fg group-hover:text-accent transition-colors">
-                      {tier.name}
-                    </h3>
-                    <span className="text-xl font-bold text-accent">
-                      {tier.price}
-                    </span>
-                  </div>
-                  <p className="mt-1.5 text-sm text-muted leading-relaxed">
-                    {tier.tagline}
-                  </p>
-                  <p className="mt-3 text-xs text-muted/80 leading-relaxed">
-                    {tier.features.length} included ·{" "}
-                    <span className="text-accent font-medium">
-                      Order in Telegram →
-                    </span>
-                  </p>
-                </a>
-              ))}
+            <div className="mt-6">
+              <ServicesCarousel />
             </div>
           </section>
         </Reveal>
