@@ -9,7 +9,7 @@ export const site = {
   url: "https://tukhlievs.github.io/tukhlievs",
   title: "Abubakir Tukhliev — Fullstack Developer",
   description:
-    "Building resilient Telegram Mini Apps, bots and SaaS in the Cloudflare + Supabase ecosystem. Focused on music streaming (minisound) and practical products.",
+    "Fullstack developer building resilient products end to end — web apps, bots, APIs and automation. Always shipping something new.",
   location: "Kokand, Uzbekistan",
 };
 

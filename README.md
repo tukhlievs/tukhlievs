@@ -1,8 +1,8 @@
 # Abubakir Tukhliev
 
-Fullstack developer from Kokand, Uzbekistan. I build Telegram Mini Apps, bots and small SaaS products on a serverless stack — Cloudflare Workers for compute, Supabase for data, Telegram as the distribution channel.
+Fullstack developer from Kokand, Uzbekistan. I build products end to end — web apps, bots, APIs and automation — picking whatever stack the problem actually needs, from the database up to the interface.
 
-Main project: [minisound](https://minisound.abutukhliev.workers.dev) — music streaming that lives entirely inside Telegram. A private channel acts as storage, a Worker proxies the audio, metadata syncs to Supabase.
+Shipped: [minisound](https://minisound.abutukhliev.workers.dev) — music streaming that lives entirely inside Telegram. Now building the next thing.
 
 Currently deepening Python and working toward ML/AI engineering. Depth over speed.
 

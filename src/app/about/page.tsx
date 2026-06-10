@@ -4,7 +4,7 @@ import { stack } from "@/lib/site";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Fullstack developer from Kokand, Uzbekistan. Telegram Mini Apps, Cloudflare Workers, Supabase.",
+    "Fullstack developer from Kokand, Uzbekistan. Building products end to end.",
 };
 
 export default function AboutPage() {
@@ -15,12 +15,12 @@ export default function AboutPage() {
       <div className="mt-8 space-y-5 text-muted leading-relaxed">
         <p>
           I&apos;m Abubakir Tukhliev, a fullstack developer from Kokand,
-          Uzbekistan. I build Telegram Mini Apps, bots and small SaaS products
-          on a serverless stack — Cloudflare Workers for compute, Supabase for
-          data, and Telegram itself as a distribution channel.
+          Uzbekistan. I build products end to end — web apps, bots, APIs,
+          automation — picking whatever stack the problem actually needs,
+          from the database up to the interface.
         </p>
         <p>
-          My main project is{" "}
+          One shipped example is{" "}
           <a
             href="https://t.me/minisound"
             target="_blank"
@@ -29,10 +29,9 @@ export default function AboutPage() {
           >
             minisound
           </a>
-          , a music streaming Mini App where a private Telegram channel works
-          as storage and a Worker proxies audio securely to the player. It
-          taught me more about HTTP, caching and API design than any course
-          could.
+          , a music streaming app living inside Telegram. It taught me more
+          about HTTP, caching and API design than any course could — and then
+          I moved on to the next thing.
         </p>
         <p>
           I care about resilient systems: things that keep working without a

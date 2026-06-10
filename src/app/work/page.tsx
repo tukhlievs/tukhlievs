@@ -5,8 +5,7 @@ import { ActivityGraph } from "@/components/ActivityGraph";
 
 export const metadata: Metadata = {
   title: "Work",
-  description:
-    "Projects and commit activity: minisound — a Telegram music Mini App with a private CDN.",
+  description: "Shipped projects and live commit activity.",
 };
 
 export default function WorkPage() {
@@ -14,8 +13,8 @@ export default function WorkPage() {
     <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-24">
       <h1 className="text-4xl font-bold tracking-tight">Work</h1>
       <p className="mt-4 text-lg text-muted leading-relaxed max-w-2xl">
-        Things I&apos;ve built and shipped — serverless on Cloudflare, data in
-        Supabase, distribution through Telegram.
+        Things I&apos;ve built and shipped. The interesting part is always the
+        next one.
       </p>
 
       <div className="mt-10 grid sm:grid-cols-2 gap-5">

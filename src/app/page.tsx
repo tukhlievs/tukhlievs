@@ -26,17 +26,9 @@ export default function HomePage() {
               <span className="text-gradient">Fullstack Developer</span>
             </h1>
             <p className="fade-up d2 mt-6 text-lg text-muted leading-relaxed max-w-xl">
-              Building resilient Telegram Mini Apps, bots and SaaS in the
-              Cloudflare + Supabase ecosystem. Focused on music streaming{" "}
-              <a
-                href="https://t.me/minisound"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors"
-              >
-                (minisound)
-              </a>{" "}
-              and practical products.
+              Building resilient products end to end — web apps, bots, APIs
+              and automation. Whatever the problem needs, from database to
+              interface. Always shipping something new.
             </p>
             <div className="fade-up d3 mt-8 flex flex-wrap gap-3">
               <Link
