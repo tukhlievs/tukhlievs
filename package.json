@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/decode-assets.mjs && node scripts/fetch-activity.mjs",
+    "prebuild": "node scripts/decode-assets.mjs && node scripts/fetch-activity.mjs && node scripts/fetch-telegram.mjs",
     "build": "next build",
     "start": "next start"
   },

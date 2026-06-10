@@ -9,15 +9,15 @@ export function ProjectCard({ project }: { project: Project }) {
       {project.screenshot && (
         <div
           aria-hidden
-          className="absolute inset-y-0 right-0 w-2/5 opacity-25 group-hover:opacity-40 transition-opacity"
+          className="absolute inset-y-0 right-0 w-2/5 opacity-55 group-hover:opacity-75 transition-opacity"
           style={{
             backgroundImage: `url(${basePath}${project.screenshot})`,
             backgroundSize: "cover",
             backgroundPosition: "top center",
             maskImage:
-              "linear-gradient(to left, rgba(0,0,0,1) 35%, rgba(0,0,0,0))",
+              "linear-gradient(to left, rgba(0,0,0,1) 45%, rgba(0,0,0,0))",
             WebkitMaskImage:
-              "linear-gradient(to left, rgba(0,0,0,1) 35%, rgba(0,0,0,0))",
+              "linear-gradient(to left, rgba(0,0,0,1) 45%, rgba(0,0,0,0))",
           }}
         />
       )}

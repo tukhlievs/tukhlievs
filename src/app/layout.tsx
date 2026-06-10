@@ -24,12 +24,21 @@ export const metadata: Metadata = {
     url: site.url,
     siteName: site.name,
     type: "website",
+    images: [
+      {
+        url: `${site.url}/og.png`,
+        width: 1200,
+        height: 630,
+        alt: site.title,
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: site.title,
     description: site.description,
     creator: "@tukhlievs",
+    images: [`${site.url}/og.png`],
   },
 };
 
