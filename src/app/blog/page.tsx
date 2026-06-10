@@ -1,40 +1,48 @@
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
-import { Posts } from "@/components/blog/Posts";
-import { baseURL, blog, person } from "@/resources";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { getPosts, formatDate } from "@/lib/posts";
 
-export async function generateMetadata() {
-  return Meta.generate({
-    title: blog.title,
-    description: blog.description,
-    baseURL: baseURL,
-    image: "https://github.com/tukhlievs.png",
-    path: blog.path,
-  });
-}
+export const metadata: Metadata = {
+  title: "Blog",
+  description: "Short notes on building things and learning in public.",
+};
 
-export default function Blog() {
+export default function BlogPage() {
+  const posts = getPosts();
+
   return (
-    <Column maxWidth="m" paddingTop="24">
-      <Schema
-        as="blogPosting"
-        baseURL={baseURL}
-        title={blog.title}
-        description={blog.description}
-        path={blog.path}
-        image={"https://github.com/tukhlievs.png"}
-        author={{
-          name: person.name,
-          url: `${baseURL}/blog`,
-          image: person.avatar,
-        }}
-      />
-      <Heading marginBottom="l" variant="heading-strong-xl" marginLeft="24">
-        {blog.title}
-      </Heading>
-      <Column fillWidth flex={1} gap="40">
-        <Posts range={[1, 1]} thumbnail />
-        <Posts range={[2, 3]} columns="2" thumbnail direction="column" />
-      </Column>
-    </Column>
+    <div className="py-16 sm:py-24">
+      <h1 className="text-3xl font-semibold tracking-tight">Blog</h1>
+      <p className="mt-4 text-muted leading-relaxed max-w-prose">
+        Short notes on what I&apos;m building and learning. Mostly written so
+        future me remembers how things clicked.
+      </p>
+
+      {posts.length === 0 ? (
+        <p className="mt-10 text-muted">Nothing here yet.</p>
+      ) : (
+        <ul className="mt-10 divide-y divide-border">
+          {posts.map((post) => (
+            <li key={post.slug}>
+              <Link href={`/blog/${post.slug}`} className="block py-5 group">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h2 className="font-medium text-fg group-hover:text-accent transition-colors">
+                    {post.title}
+                  </h2>
+                  <time className="text-sm text-muted shrink-0">
+                    {formatDate(post.publishedAt)}
+                  </time>
+                </div>
+                {post.summary && (
+                  <p className="mt-1.5 text-sm text-muted leading-relaxed">
+                    {post.summary}
+                  </p>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

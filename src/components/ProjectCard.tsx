@@ -1,90 +1,51 @@
-"use client";
+import type { Project } from "@/lib/projects";
 
-import {
-  AvatarGroup,
-  Carousel,
-  Column,
-  Flex,
-  Heading,
-  SmartLink,
-  Text,
-} from "@once-ui-system/core";
-
-interface ProjectCardProps {
-  href: string;
-  priority?: boolean;
-  images: string[];
-  title: string;
-  content: string;
-  description: string;
-  avatars: { src: string }[];
-  link: string;
-}
-
-export const ProjectCard: React.FC<ProjectCardProps> = ({
-  href,
-  images = [],
-  title,
-  content,
-  description,
-  avatars,
-  link,
-}) => {
-  return (
-    <Column fillWidth gap="m">
-      <Carousel
-        sizes="(max-width: 960px) 100vw, 960px"
-        items={images.map((image) => ({
-          slide: image,
-          alt: title,
-        }))}
-      />
-      <Flex
-        s={{ direction: "column" }}
-        fillWidth
-        paddingX="s"
-        paddingTop="12"
-        paddingBottom="24"
-        gap="l"
-      >
-        {title && (
-          <Flex flex={5}>
-            <Heading as="h2" wrap="balance" variant="heading-strong-xl">
-              {title}
-            </Heading>
-          </Flex>
-        )}
-        {(avatars?.length > 0 || description?.trim() || content?.trim()) && (
-          <Column flex={7} gap="16">
-            {avatars?.length > 0 && <AvatarGroup avatars={avatars} size="m" reverse />}
-            {description?.trim() && (
-              <Text wrap="balance" variant="body-default-s" onBackground="neutral-weak">
-                {description}
-              </Text>
-            )}
-            <Flex gap="24" wrap>
-              {content?.trim() && (
-                <SmartLink
-                  suffixIcon="arrowRight"
-                  style={{ margin: "0", width: "fit-content" }}
-                  href={href}
-                >
-                  <Text variant="body-default-s">Read case study</Text>
-                </SmartLink>
-              )}
-              {link && (
-                <SmartLink
-                  suffixIcon="arrowUpRightFromSquare"
-                  style={{ margin: "0", width: "fit-content" }}
-                  href={link}
-                >
-                  <Text variant="body-default-s">View project</Text>
-                </SmartLink>
-              )}
-            </Flex>
-          </Column>
-        )}
-      </Flex>
-    </Column>
-  );
+const statusLabel: Record<Project["status"], string> = {
+  active: "Active",
+  shipped: "Shipped",
+  experiment: "Experiment",
 };
+
+export function ProjectCard({ project }: { project: Project }) {
+  return (
+    <article className="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-fg/25">
+      <div className="flex items-baseline justify-between gap-3">
+        <h3 className="font-medium text-fg">
+          {project.link ? (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-accent transition-colors"
+            >
+              {project.title}
+              <span aria-hidden className="inline-block ml-1 text-muted group-hover:text-accent transition-colors">
+                ↗
+              </span>
+            </a>
+          ) : (
+            project.title
+          )}
+        </h3>
+        <span className="text-xs text-muted shrink-0">
+          {statusLabel[project.status]} · {project.year}
+        </span>
+      </div>
+
+      <p className="mt-2 text-sm text-muted leading-relaxed">
+        {project.description}
+      </p>
+
+      <ul className="mt-4 flex flex-wrap gap-1.5">
+        {project.tech.map((t) => (
+          <li
+            key={t}
+            className="text-xs text-muted border border-border rounded-md px-2 py-0.5"
+          >
+            {t}
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}

@@ -1,47 +1,26 @@
-import { Row, IconButton, Text } from "@once-ui-system/core";
-import { person, social } from "@/resources";
-import styles from "./Footer.module.scss";
+import { site, socials } from "@/lib/site";
 
-export const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
+export function Footer() {
   return (
-    <Row as="footer" fillWidth padding="8" horizontal="center" s={{ direction: "column" }}>
-      <Row
-        className={styles.mobile}
-        maxWidth="m"
-        paddingY="8"
-        paddingX="16"
-        gap="16"
-        horizontal="between"
-        vertical="center"
-        s={{
-          direction: "column",
-          horizontal: "center",
-          align: "center",
-        }}
-      >
-        <Text variant="body-default-s" onBackground="neutral-strong">
-          <Text onBackground="neutral-weak">© {currentYear}</Text>
-          <Text paddingX="4">{person.name}</Text>
-        </Text>
-        <Row gap="16">
-          {social.map(
-            (item) =>
-              item.link && (
-                <IconButton
-                  key={item.name}
-                  href={item.link}
-                  icon={item.icon}
-                  tooltip={item.name}
-                  size="s"
-                  variant="ghost"
-                />
-              ),
-          )}
-        </Row>
-      </Row>
-      <Row height="80" hide s={{ hide: false }} />
-    </Row>
+    <footer className="border-t border-border mt-20">
+      <div className="max-w-2xl mx-auto px-5 sm:px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <p className="text-sm text-muted">
+          © {new Date().getFullYear()} {site.name}
+        </p>
+        <nav className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+          {socials.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-fg transition-colors"
+            >
+              {s.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </footer>
   );
-};
+}
