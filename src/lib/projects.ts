@@ -18,7 +18,7 @@ export const projects: Project[] = [
     description:
       "A music streaming platform that lives entirely inside Telegram. A private channel acts as storage, a Cloudflare Worker proxies audio bytes with Range support so the bot token never leaks to the client, and metadata syncs to Supabase. Custom audio player, instant seeking, zero servers to maintain.",
     tech: ["TypeScript", "Cloudflare Workers", "Supabase", "Telegram Bot API", "Next.js"],
-    link: "https://t.me/minisound",
+    link: "https://minisound.abutukhliev.workers.dev",
     status: "active",
   },
   {
