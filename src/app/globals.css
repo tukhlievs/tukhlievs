@@ -24,12 +24,25 @@
 
 html {
   scroll-behavior: smooth;
+  /* Запрет автоувеличения текста при повороте экрана */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Жёсткий запрет горизонтального скролла и дрейфа */
+html,
+body {
+  overflow-x: clip;
 }
 
 body {
   color: var(--fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  /* Убирает задержку и двойной тап-зум на тач-устройствах */
+  touch-action: manipulation;
+  overscroll-behavior-x: none;
+  -webkit-tap-highlight-color: transparent;
   /* Мягкая голубая атмосфера поверх белого — без резких градиентов */
   background:
     radial-gradient(1100px 520px at 85% -8%, rgba(59, 130, 246, 0.12), transparent 60%),
@@ -95,6 +108,31 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+/* Мобильные/тач-устройства: полностью статичный UI.
+   Никаких въезжающих блоков, каскадов и плавного скролла —
+   контент виден сразу и не двигается. */
+@media (hover: none), (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
+  .fade-up {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-pulse {
+    animation: none;
+  }
+  /* Hover-сдвиги кнопок не должны срабатывать от тапов */
+  .hover\:-translate-y-0\.5:hover,
+  .hover\:-translate-y-px:hover {
+    transform: none;
   }
 }
 

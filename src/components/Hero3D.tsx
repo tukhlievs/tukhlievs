@@ -12,6 +12,12 @@ export function Hero3D() {
     const mount = mountRef.current;
     if (!mount) return;
 
+    // На мобильных и планшетах сцена скрыта (lg:block) — не качаем three.js вовсе
+    const isDesktop = window.matchMedia(
+      "(min-width: 1024px) and (hover: hover) and (pointer: fine)",
+    ).matches;
+    if (!isDesktop) return;
+
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let disposed = false;
