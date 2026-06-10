@@ -26,8 +26,12 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-2 sm:px-2.5 py-1.5 rounded-lg transition-colors ${
-                  item.href === "/" ? "hidden sm:block " : ""
+                className={`px-1.5 sm:px-2.5 py-1.5 rounded-lg transition-colors ${
+                  /* На телефонах места на 6 пунктов нет: Home и About скрыты
+                     (логотип ведёт на главную, About доступен с десктопа) */
+                  item.href === "/" || item.href === "/about"
+                    ? "hidden sm:block "
+                    : ""
                 }${
                   isActive(item.href)
                     ? "text-accent font-semibold bg-accent-soft"

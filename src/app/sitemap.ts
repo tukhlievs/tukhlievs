@@ -5,7 +5,7 @@ import { getPosts } from "@/lib/posts";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/about", "/work", "/blog", "/contact"].map((path) => ({
+  const pages = ["", "/about", "/work", "/services", "/blog", "/contact"].map((path) => ({
     url: `${site.url}${path}`,
     lastModified: new Date(),
   }));
