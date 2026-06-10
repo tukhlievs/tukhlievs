@@ -63,28 +63,38 @@ body {
   color: transparent;
 }
 
-/* Каскадное появление hero при загрузке (чистый CSS) */
-@keyframes fade-up {
+/* Каскадное появление hero при загрузке: подъём снизу + расфокус.
+   Текст «проявляется» из блюра, поднимаясь на место. */
+@keyframes blur-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(28px);
+    filter: blur(12px);
+  }
+  60% {
+    filter: blur(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 .fade-up {
-  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: blur-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform, filter;
 }
 .fade-up.d1 {
-  animation-delay: 90ms;
+  animation-delay: 110ms;
 }
 .fade-up.d2 {
-  animation-delay: 180ms;
+  animation-delay: 240ms;
 }
 .fade-up.d3 {
-  animation-delay: 270ms;
+  animation-delay: 380ms;
+}
+.fade-up.d4 {
+  animation-delay: 500ms;
 }
 
 /* Появление секций при скролле (компонент Reveal) */

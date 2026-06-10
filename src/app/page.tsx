@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site, socials, stack } from "@/lib/site";
 import { projects } from "@/lib/projects";
 import { getPosts, formatDate } from "@/lib/posts";
+import { tiers, orderContact } from "@/lib/services";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Hero3D } from "@/components/Hero3D";
 import { Reveal } from "@/components/Reveal";
@@ -21,16 +22,21 @@ export default function HomePage() {
               <span className="size-1.5 rounded-full bg-accent animate-pulse" />
               {site.location} · open to projects
             </p>
-            <h1 className="fade-up d1 mt-6 text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] text-balance">
-              Abubakir Tukhliev —{" "}
-              <span className="text-gradient">Fullstack Developer</span>
+            {/* Имя и роль проявляются из блюра по очереди */}
+            <h1 className="mt-6 text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] text-balance">
+              <span className="fade-up d1 inline-block">
+                Abubakir Tukhliev —
+              </span>{" "}
+              <span className="fade-up d2 inline-block text-gradient pb-1">
+                Fullstack Developer
+              </span>
             </h1>
-            <p className="fade-up d2 mt-6 text-lg text-muted leading-relaxed max-w-xl">
+            <p className="fade-up d3 mt-6 text-lg text-muted leading-relaxed max-w-xl">
               Building resilient products end to end — web apps, bots, APIs
               and automation. Whatever the problem needs, from database to
               interface. Always shipping something new.
             </p>
-            <div className="fade-up d3 mt-8 flex flex-wrap gap-3">
+            <div className="fade-up d4 mt-8 flex flex-wrap gap-3">
               <Link
                 href="/work"
                 className="inline-flex items-center rounded-full bg-accent text-white px-6 py-3 text-sm font-semibold shadow-[0_4px_14px_rgba(37,99,235,0.35)] hover:shadow-[0_8px_24px_rgba(37,99,235,0.45)] hover:-translate-y-0.5 transition-all"
@@ -71,6 +77,54 @@ export default function HomePage() {
             <div className={`mt-6 grid ${gridCols} gap-5 max-w-xl`}>
               {featured.map((p) => (
                 <ProjectCard key={p.slug} project={p} />
+              ))}
+            </div>
+          </section>
+        </Reveal>
+
+        {/* Услуги: компактная версия трёх тарифов, полная — на /services */}
+        <Reveal>
+          <section className="mt-24">
+            <div className="flex items-baseline justify-between">
+              <h2 className="text-2xl font-bold tracking-tight">Services</h2>
+              <Link
+                href="/services"
+                className="text-sm font-medium text-accent hover:underline underline-offset-4"
+              >
+                Full details →
+              </Link>
+            </div>
+            <div className="mt-6 grid sm:grid-cols-3 gap-4">
+              {tiers.map((tier) => (
+                <a
+                  key={tier.slug}
+                  href={`${orderContact}?text=${encodeURIComponent(`Hi! I'd like to order the ${tier.name} package (${tier.price}).`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`group rounded-2xl border bg-white p-5 transition-[box-shadow,border-color] shadow-[0_1px_2px_rgba(11,18,32,0.04),0_8px_24px_rgba(37,99,235,0.06)] hover:shadow-[0_2px_4px_rgba(11,18,32,0.05),0_14px_36px_rgba(37,99,235,0.14)] ${
+                    tier.highlighted
+                      ? "border-accent/40"
+                      : "border-border hover:border-accent/30"
+                  }`}
+                >
+                  <div className="flex items-baseline justify-between gap-2">
+                    <h3 className="font-semibold text-fg group-hover:text-accent transition-colors">
+                      {tier.name}
+                    </h3>
+                    <span className="text-xl font-bold text-accent">
+                      {tier.price}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-sm text-muted leading-relaxed">
+                    {tier.tagline}
+                  </p>
+                  <p className="mt-3 text-xs text-muted/80 leading-relaxed">
+                    {tier.features.length} included ·{" "}
+                    <span className="text-accent font-medium">
+                      Order in Telegram →
+                    </span>
+                  </p>
+                </a>
               ))}
             </div>
           </section>
