@@ -9,6 +9,7 @@ import { Reveal } from "@/components/Reveal";
 export default function HomePage() {
   const posts = getPosts().slice(0, 3);
   const featured = projects.slice(0, 2);
+  const gridCols = featured.length > 1 ? "sm:grid-cols-2" : "";
 
   return (
     <div>
@@ -75,7 +76,7 @@ export default function HomePage() {
                 All projects →
               </Link>
             </div>
-            <div className="mt-6 grid sm:grid-cols-2 gap-5">
+            <div className={`mt-6 grid ${gridCols} gap-5 max-w-xl`}>
               {featured.map((p) => (
                 <ProjectCard key={p.slug} project={p} />
               ))}
