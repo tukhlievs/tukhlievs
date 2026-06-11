@@ -49,7 +49,7 @@ try {
 
   writeFileSync(
     OUT,
-    JSON.stringify({ updated: new Date().toISOString(), total, days }),
+    JSON.stringify({ updated: new Date().toISOString(), total, repos: repos.length, days }),
   );
   console.log(`fetch-activity: ${total} commits across ${repos.length} repos`);
 } catch (err) {

@@ -2,10 +2,60 @@ import Link from "next/link";
 import { site, socials, stack } from "@/lib/site";
 import { projects } from "@/lib/projects";
 import { getPosts, formatDate } from "@/lib/posts";
+import activity from "@/data/activity.json";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Hero3D } from "@/components/Hero3D";
 import { Reveal } from "@/components/Reveal";
 import { ServicesCarousel } from "@/components/ServicesCarousel";
+
+const capabilities = [
+  {
+    title: "Web apps",
+    text: "Next.js and React frontends with real backends — auth, databases, dashboards, SEO-ready rendering.",
+    icon: "M3 5h18v14H3z M3 9h18 M7 7h.01 M5 7h.01",
+  },
+  {
+    title: "Telegram bots & Mini Apps",
+    text: "Bots that feel like products and Mini Apps that feel native — payments, storage, webhooks, the whole loop.",
+    icon: "M21 4 3 11l6 2 2 6 4-5 5 2z M9 13l8-7",
+  },
+  {
+    title: "APIs & integrations",
+    text: "REST APIs, third-party integrations and data pipelines that connect services never meant to talk.",
+    icon: "M9 7V4h6v3 M9 20v-3h6v3 M12 7v3 M12 14v3 M5 12h14 M7 10v4 M17 10v4",
+  },
+  {
+    title: "Automation & AI agents",
+    text: "Scripts, cron jobs and autonomous agents that quietly do the boring work around the clock.",
+    icon: "M12 3v3 M12 18v3 M5.6 5.6l2.2 2.2 M16.2 16.2l2.2 2.2 M3 12h3 M18 12h3 M5.6 18.4l2.2-2.2 M16.2 7.8l2.2-2.2",
+  },
+];
+
+const steps = [
+  {
+    title: "Describe the task",
+    text: "One message on Telegram with what you need. Screenshots and examples help.",
+  },
+  {
+    title: "Fixed scope & price",
+    text: "I reply with exactly what will be done, for how much and by when. No surprises later.",
+  },
+  {
+    title: "Build",
+    text: "Short iterations, progress you can click, changes while they are still cheap.",
+  },
+  {
+    title: "Deploy & support",
+    text: "Live on your domain with everything wired. I stay around to fix what wobbles.",
+  },
+];
+
+const stats = [
+  { value: `${activity.total}+`, label: "commits · 12 weeks" },
+  { value: String((activity as { repos?: number }).repos ?? 5), label: "public repos" },
+  { value: "3", label: "service packages" },
+  { value: "1", label: "product live" },
+];
 
 export default function HomePage() {
   const posts = getPosts().slice(0, 3);
@@ -16,14 +66,14 @@ export default function HomePage() {
     <div>
       {/* Hero: крупный заголовок слева, Three.js сцена справа */}
       <section className="relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-20 sm:pt-28 pb-16 sm:pb-24 grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-24 sm:pt-36 pb-20 sm:pb-28 grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
           <div className="relative z-10">
             <p className="fade-up inline-flex items-center gap-2 text-sm font-medium text-accent bg-accent-soft border border-accent/15 rounded-full px-3.5 py-1.5">
               <span className="size-1.5 rounded-full bg-accent animate-pulse" />
               {site.location} · open to projects
             </p>
             {/* Имя и роль проявляются из блюра по очереди */}
-            <h1 className="mt-6 text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] text-balance">
+            <h1 className="mt-7 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.04] text-balance">
               <span className="fade-up d1 inline-block">
                 Abubakir Tukhliev —
               </span>{" "}
@@ -60,11 +110,66 @@ export default function HomePage() {
       </section>
 
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
+        {/* Живые цифры */}
+        <Reveal>
+          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="rounded-2xl border border-border bg-white px-5 py-6 text-center shadow-[0_1px_2px_rgba(11,18,32,0.04),0_8px_24px_rgba(37,99,235,0.05)]"
+              >
+                <div className="font-display text-3xl font-bold text-accent">
+                  {s.value}
+                </div>
+                <div className="mt-1.5 text-xs text-muted">{s.label}</div>
+              </div>
+            ))}
+          </section>
+        </Reveal>
+
+        {/* Что я строю */}
+        <Reveal>
+          <section className="mt-28 sm:mt-36">
+            <h2 className="text-3xl font-bold tracking-tight">What I build</h2>
+            <p className="mt-3 text-lg text-muted leading-relaxed max-w-2xl">
+              Four things I do well — and ship end to end, from the first
+              database table to the deployed interface.
+            </p>
+            <div className="mt-10 grid sm:grid-cols-2 gap-5">
+              {capabilities.map((c) => (
+                <div
+                  key={c.title}
+                  className="rounded-2xl border border-border bg-white p-7 shadow-[0_1px_2px_rgba(11,18,32,0.04),0_8px_24px_rgba(37,99,235,0.05)] hover:border-accent/30 hover:shadow-[0_2px_4px_rgba(11,18,32,0.05),0_16px_40px_rgba(37,99,235,0.12)] transition-[box-shadow,border-color]"
+                >
+                  <span className="inline-flex size-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                    <svg
+                      className="size-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d={c.icon} />
+                    </svg>
+                  </span>
+                  <h3 className="mt-5 text-lg font-semibold">{c.title}</h3>
+                  <p className="mt-2 text-sm text-muted leading-relaxed">
+                    {c.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </Reveal>
+
         {/* Featured projects */}
         <Reveal>
-          <section className="mt-8">
+          <section className="mt-28 sm:mt-36">
             <div className="flex items-baseline justify-between">
-              <h2 className="text-2xl font-bold tracking-tight">
+              <h2 className="text-3xl font-bold tracking-tight">
                 Selected work
               </h2>
               <Link
@@ -84,9 +189,9 @@ export default function HomePage() {
 
         {/* Услуги: компактная версия трёх тарифов, полная — на /services */}
         <Reveal>
-          <section className="mt-24">
+          <section className="mt-28 sm:mt-36">
             <div className="flex items-baseline justify-between">
-              <h2 className="text-2xl font-bold tracking-tight">Services</h2>
+              <h2 className="text-3xl font-bold tracking-tight">Services</h2>
               <Link
                 href="/services"
                 className="text-sm font-medium text-accent hover:underline underline-offset-4"
@@ -100,10 +205,33 @@ export default function HomePage() {
           </section>
         </Reveal>
 
+        {/* Как проходит заказ */}
+        <Reveal>
+          <section className="mt-28 sm:mt-36">
+            <h2 className="text-3xl font-bold tracking-tight">How it works</h2>
+            <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {steps.map((st, i) => (
+                <div
+                  key={st.title}
+                  className="rounded-2xl border border-border bg-white p-6 shadow-[0_1px_2px_rgba(11,18,32,0.04),0_8px_24px_rgba(37,99,235,0.05)]"
+                >
+                  <span className="inline-flex size-8 items-center justify-center rounded-full bg-accent text-white font-bold text-sm">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-4 font-semibold">{st.title}</h3>
+                  <p className="mt-1.5 text-sm text-muted leading-relaxed">
+                    {st.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </Reveal>
+
         {/* Stack */}
         <Reveal>
-          <section className="mt-24">
-            <h2 className="text-2xl font-bold tracking-tight">Stack</h2>
+          <section className="mt-28 sm:mt-36">
+            <h2 className="text-3xl font-bold tracking-tight">Stack</h2>
             <ul className="mt-6 flex flex-wrap gap-2.5">
               {stack.map((item) => (
                 <li
@@ -120,9 +248,9 @@ export default function HomePage() {
         {/* Latest posts */}
         {posts.length > 0 && (
           <Reveal>
-            <section className="mt-24">
+            <section className="mt-28 sm:mt-36">
               <div className="flex items-baseline justify-between">
-                <h2 className="text-2xl font-bold tracking-tight">Writing</h2>
+                <h2 className="text-3xl font-bold tracking-tight">Writing</h2>
                 <Link
                   href="/blog"
                   className="text-sm font-medium text-accent hover:underline underline-offset-4"
@@ -153,8 +281,8 @@ export default function HomePage() {
 
         {/* Socials */}
         <Reveal>
-          <section className="mt-24 mb-8">
-            <h2 className="text-2xl font-bold tracking-tight">Elsewhere</h2>
+          <section className="mt-28 sm:mt-36 mb-16 sm:mb-24">
+            <h2 className="text-3xl font-bold tracking-tight">Elsewhere</h2>
             <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm">
               {socials.map((s) => (
                 <li key={s.label}>

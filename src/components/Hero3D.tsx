@@ -91,6 +91,16 @@ export function Hero3D() {
       };
       window.addEventListener("pointermove", onPointer, { passive: true });
 
+      // Скролл-анимация: прокрутка докручивает сферу, утапливает её вниз
+      // и слегка уменьшает — сцена «живёт» вместе со страницей
+      let scrollT = 0; // целевое значение 0..1.5 (в экранах прокрутки)
+      let scrollS = 0; // сглаженное (lerp в кадре)
+      const onScroll = () => {
+        scrollT = Math.min(window.scrollY / window.innerHeight, 1.5);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
       const onResize = () => {
         camera.aspect = mount.clientWidth / mount.clientHeight;
         camera.updateProjectionMatrix();
@@ -103,12 +113,16 @@ export function Hero3D() {
       const animate = () => {
         raf = requestAnimationFrame(animate);
         const t = clock.getElapsedTime();
-        wire.rotation.y = t * 0.12 + targetX;
-        wire.rotation.x = t * 0.05 + targetY;
+        scrollS += (scrollT - scrollS) * 0.06; // плавное догоняние скролла
+        wire.rotation.y = t * 0.12 + targetX + scrollS * 1.6;
+        wire.rotation.x = t * 0.05 + targetY + scrollS * 0.5;
         dots.rotation.copy(wire.rotation);
-        core.rotation.y = -t * 0.18;
-        core.rotation.x = Math.sin(t * 0.4) * 0.18;
+        core.rotation.y = -t * 0.18 - scrollS * 1.1;
+        core.rotation.x = Math.sin(t * 0.4) * 0.18 + scrollS * 0.35;
         core.position.y = Math.sin(t * 0.8) * 0.12;
+        scene.position.y = -scrollS * 1.3;
+        const k = 1 - scrollS * 0.16;
+        scene.scale.setScalar(k);
         renderer.render(scene, camera);
       };
 
@@ -122,6 +136,7 @@ export function Hero3D() {
       cleanup = () => {
         cancelAnimationFrame(raf);
         window.removeEventListener("pointermove", onPointer);
+        window.removeEventListener("scroll", onScroll);
         window.removeEventListener("resize", onResize);
         renderer.dispose();
         wireGeo.dispose();
