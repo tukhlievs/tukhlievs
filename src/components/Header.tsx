@@ -13,7 +13,7 @@ export function Header() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  // Позиция скользящей пилюли за курсором (десктоп)
+  // Позиция скользящей пилюли за курсором (десктоп; на тач остаётся скрытой)
   const [pos, setPos] = useState<Pos>({ left: 0, width: 0, opacity: 0 });
 
   return (
@@ -26,16 +26,18 @@ export function Header() {
           tukhlievs
         </Link>
 
-        {/* Десктоп: анимированная пилюля-навигация в цветах бренда */}
+        {/* Единая пилюля-навигация на всех экранах.
+            Home и About скрыты на телефонах, чтобы 4 пункта влезли без сдвига. */}
         <ul
           onMouseLeave={() => setPos((p) => ({ ...p, opacity: 0 }))}
-          className="relative hidden lg:flex items-center rounded-full border border-border bg-white/60 p-1"
+          className="relative flex items-center rounded-full border border-border bg-white/60 p-1"
         >
           {nav.map((item) => (
             <PillTab
               key={item.href}
               href={item.href}
               active={isActive(item.href)}
+              hideOnMobile={item.href === "/" || item.href === "/about"}
               setPos={setPos}
             >
               {item.label}
@@ -45,28 +47,9 @@ export function Header() {
             aria-hidden
             animate={pos}
             transition={{ type: "spring", stiffness: 400, damping: 32 }}
-            className="absolute z-0 top-1 h-8 rounded-full bg-accent-soft"
+            className="absolute z-0 top-1 h-7 sm:h-8 rounded-full bg-accent-soft"
           />
         </ul>
-
-        {/* Мобильные: компактные статичные ссылки, без пилюли и анимаций */}
-        <nav className="flex lg:hidden items-center gap-0.5 text-sm whitespace-nowrap">
-          {nav
-            .filter((i) => i.href !== "/" && i.href !== "/about")
-            .map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-2 py-1.5 rounded-lg transition-colors ${
-                  isActive(item.href)
-                    ? "text-accent font-semibold bg-accent-soft"
-                    : "text-muted"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-        </nav>
 
         <a
           href="https://t.me/tukhlievs"
@@ -84,11 +67,13 @@ export function Header() {
 function PillTab({
   href,
   active,
+  hideOnMobile,
   setPos,
   children,
 }: {
   href: string;
   active: boolean;
+  hideOnMobile: boolean;
   setPos: (p: Pos) => void;
   children: React.ReactNode;
 }) {
@@ -102,13 +87,13 @@ function PillTab({
         const { width } = ref.current.getBoundingClientRect();
         setPos({ left: ref.current.offsetLeft, width, opacity: 1 });
       }}
-      className="relative z-10"
+      className={`relative z-10 ${hideOnMobile ? "hidden lg:block" : ""}`}
     >
       <Link
         href={href}
-        className={`block px-4 py-1.5 rounded-full transition-colors ${
+        className={`block rounded-full px-2.5 py-1.5 text-xs sm:px-4 sm:text-sm transition-colors ${
           active
-            ? "text-accent font-semibold"
+            ? "text-accent font-semibold bg-accent-soft lg:bg-transparent"
             : "text-muted hover:text-fg"
         }`}
       >
