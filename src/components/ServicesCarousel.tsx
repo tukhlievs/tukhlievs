@@ -1,16 +1,101 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { tiers, orderContact } from "@/lib/services";
 
-// Вертикальная карусель тарифов: слайды едут по Y, точки-навигация справа,
-// в фоне два слоя точек с параллаксом за курсором (десктоп).
+// Вертикальная карусель тарифов со скролл-управлением:
+// колесо мыши (десктоп) и вертикальный свайп (тач) листают слайды;
+// на краях карусель не перехватывает жест — страница скроллится дальше.
 export function ServicesCarousel() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const indexRef = useRef(0);
+  const coolRef = useRef(false);
+  const gestureRef = useRef<{ y: number; x: number; consumed: boolean } | null>(
+    null,
+  );
 
-  // Автопрокрутка: только десктоп с курсором, без reduced-motion, пауза на ховере
+  const goTo = useCallback((next: number) => {
+    if (next < 0 || next >= tiers.length) return;
+    indexRef.current = next;
+    setIndex(next);
+  }, []);
+
+  // Переход с защитой от дребезга (одно перелистывание за жест/порцию колеса)
+  const step = useCallback(
+    (dir: 1 | -1): boolean => {
+      const next = indexRef.current + dir;
+      if (next < 0 || next >= tiers.length) return false;
+      if (!coolRef.current) {
+        coolRef.current = true;
+        goTo(next);
+        setTimeout(() => (coolRef.current = false), 800);
+      }
+      return true; // жест наш, странице не отдаём
+    },
+    [goTo],
+  );
+
+  // Колесо и свайп: React вешает wheel/touchmove пассивно,
+  // поэтому слушатели с preventDefault — вручную через ref
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) < 6) return;
+      const dir: 1 | -1 = e.deltaY > 0 ? 1 : -1;
+      const next = indexRef.current + dir;
+      if (next < 0 || next >= tiers.length) return; // край — скроллим страницу
+      e.preventDefault();
+      step(dir);
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      gestureRef.current = {
+        y: e.touches[0].clientY,
+        x: e.touches[0].clientX,
+        consumed: false,
+      };
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      const g = gestureRef.current;
+      if (!g) return;
+      if (g.consumed) {
+        e.preventDefault(); // жест уже наш — не дёргаем страницу
+        return;
+      }
+      const dy = g.y - e.touches[0].clientY;
+      const dx = g.x - e.touches[0].clientX;
+      // Ждём явной вертикальной интенции
+      if (Math.abs(dy) < 14 || Math.abs(dy) < Math.abs(dx) * 1.2) return;
+      const dir: 1 | -1 = dy > 0 ? 1 : -1;
+      const next = indexRef.current + dir;
+      if (next < 0 || next >= tiers.length) return; // край — отдаём скролл
+      e.preventDefault();
+      g.consumed = true;
+      step(dir);
+    };
+
+    const onTouchEnd = () => {
+      gestureRef.current = null;
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [step]);
+
+  // Автопрокрутка: десктоп, без reduced-motion, пауза на ховере
   useEffect(() => {
     const desktop = window.matchMedia(
       "(hover: hover) and (pointer: fine)",
@@ -20,13 +105,13 @@ export function ServicesCarousel() {
     ).matches;
     if (!desktop || reduced || paused) return;
     const id = setInterval(
-      () => setIndex((i) => (i + 1) % tiers.length),
+      () => goTo((indexRef.current + 1) % tiers.length),
       4500,
     );
     return () => clearInterval(id);
-  }, [paused]);
+  }, [paused, goTo]);
 
-  // Параллакс: курсор двигает слои точек через CSS-переменные
+  // Параллакс точечных слоёв за курсором (десктоп)
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -132,7 +217,7 @@ export function ServicesCarousel() {
             type="button"
             aria-label={`Show ${t.name} package`}
             aria-current={i === index}
-            onClick={() => setIndex(i)}
+            onClick={() => goTo(i)}
             className={`w-2.5 rounded-full transition-all duration-300 ${
               i === index
                 ? "h-7 bg-accent"

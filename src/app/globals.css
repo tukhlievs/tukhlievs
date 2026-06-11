@@ -128,9 +128,9 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .fade-up {
-    animation: none;
-  }
+  /* Каскад hero (.fade-up) на мобильных НЕ отключаем: это разовая
+     анимация загрузки, страница после неё статична. Скролл-эффекты
+     (.reveal) остаются выключенными — контент не дрейфует. */
   .reveal {
     opacity: 1;
     transform: none;
