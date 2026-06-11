@@ -4,7 +4,6 @@ import { projects } from "@/lib/projects";
 import { getPosts, formatDate } from "@/lib/posts";
 import activity from "@/data/activity.json";
 import { ProjectCard } from "@/components/ProjectCard";
-import { Hero3D } from "@/components/Hero3D";
 import { Reveal } from "@/components/Reveal";
 import { ServicesCarousel } from "@/components/ServicesCarousel";
 
@@ -12,22 +11,18 @@ const capabilities = [
   {
     title: "Web apps",
     text: "Next.js and React frontends with real backends — auth, databases, dashboards, SEO-ready rendering.",
-    icon: "M3 5h18v14H3z M3 9h18 M7 7h.01 M5 7h.01",
   },
   {
     title: "Telegram bots & Mini Apps",
     text: "Bots that feel like products and Mini Apps that feel native — payments, storage, webhooks, the whole loop.",
-    icon: "M21 4 3 11l6 2 2 6 4-5 5 2z M9 13l8-7",
   },
   {
     title: "APIs & integrations",
     text: "REST APIs, third-party integrations and data pipelines that connect services never meant to talk.",
-    icon: "M9 7V4h6v3 M9 20v-3h6v3 M12 7v3 M12 14v3 M5 12h14 M7 10v4 M17 10v4",
   },
   {
     title: "Automation & AI agents",
     text: "Scripts, cron jobs and autonomous agents that quietly do the boring work around the clock.",
-    icon: "M12 3v3 M12 18v3 M5.6 5.6l2.2 2.2 M16.2 16.2l2.2 2.2 M3 12h3 M18 12h3 M5.6 18.4l2.2-2.2 M16.2 7.8l2.2-2.2",
   },
 ];
 
@@ -64,16 +59,16 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero: крупный заголовок слева, Three.js сцена справа */}
+      {/* Hero: типографический стейтмент на всю ширину */}
       <section className="relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-24 sm:pt-36 pb-20 sm:pb-28 grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-24 sm:pt-40 pb-20 sm:pb-28">
           <div className="relative z-10">
             <p className="fade-up inline-flex items-center gap-2 text-sm font-medium text-accent bg-accent-soft border border-accent/15 rounded-full px-3.5 py-1.5">
               <span className="size-1.5 rounded-full bg-accent animate-pulse" />
               {site.location} · open to projects
             </p>
             {/* Имя и роль проявляются из блюра по очереди */}
-            <h1 className="mt-7 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.04] text-balance">
+            <h1 className="mt-7 max-w-4xl text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.02] text-balance">
               <span className="fade-up d1 inline-block">
                 Abubakir Tukhliev —
               </span>{" "}
@@ -102,26 +97,23 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 3D-сцена; на мобильных скрыта, чтобы не грузить WebGL */}
-          <div className="relative hidden lg:block h-[460px]">
-            <Hero3D />
-          </div>
         </div>
       </section>
 
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         {/* Живые цифры */}
         <Reveal>
-          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <section className="flex flex-wrap items-end gap-x-14 gap-y-8">
             {stats.map((s) => (
-              <div
-                key={s.label}
-                className="rounded-2xl border border-border bg-white px-5 py-6 text-center shadow-[0_1px_2px_rgba(11,18,32,0.04),0_8px_24px_rgba(37,99,235,0.05)]"
-              >
-                <div className="font-display text-3xl font-bold text-accent">
+              <div key={s.label}>
+                <span
+                  aria-hidden
+                  className="block h-1 w-8 rounded-full bg-accent/80"
+                />
+                <div className="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight">
                   {s.value}
                 </div>
-                <div className="mt-1.5 text-xs text-muted">{s.label}</div>
+                <div className="mt-1 text-sm text-muted">{s.label}</div>
               </div>
             ))}
           </section>
@@ -135,28 +127,19 @@ export default function HomePage() {
               Four things I do well — and ship end to end, from the first
               database table to the deployed interface.
             </p>
-            <div className="mt-10 grid sm:grid-cols-2 gap-5">
-              {capabilities.map((c) => (
+            <div className="mt-10 border-b border-border">
+              {capabilities.map((c, i) => (
                 <div
                   key={c.title}
-                  className="rounded-2xl border border-border bg-white p-7 shadow-[0_1px_2px_rgba(11,18,32,0.04),0_8px_24px_rgba(37,99,235,0.05)] hover:border-accent/30 hover:shadow-[0_2px_4px_rgba(11,18,32,0.05),0_16px_40px_rgba(37,99,235,0.12)] transition-[box-shadow,border-color]"
+                  className="group grid grid-cols-1 sm:grid-cols-[72px_1fr] lg:grid-cols-[72px_1fr_1.6fr] gap-x-8 gap-y-2 items-baseline border-t border-border py-7 sm:py-9"
                 >
-                  <span className="inline-flex size-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
-                    <svg
-                      className="size-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden
-                    >
-                      <path d={c.icon} />
-                    </svg>
+                  <span className="font-display text-sm font-semibold text-accent">
+                    0{i + 1}
                   </span>
-                  <h3 className="mt-5 text-lg font-semibold">{c.title}</h3>
-                  <p className="mt-2 text-sm text-muted leading-relaxed">
+                  <h3 className="text-xl sm:text-2xl font-semibold tracking-tight group-hover:text-accent transition-colors">
+                    {c.title}
+                  </h3>
+                  <p className="sm:col-start-2 lg:col-start-auto text-muted leading-relaxed">
                     {c.text}
                   </p>
                 </div>
@@ -209,21 +192,25 @@ export default function HomePage() {
         <Reveal>
           <section className="mt-28 sm:mt-36">
             <h2 className="text-3xl font-bold tracking-tight">How it works</h2>
-            <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {steps.map((st, i) => (
-                <div
-                  key={st.title}
-                  className="rounded-2xl border border-border bg-white p-6 shadow-[0_1px_2px_rgba(11,18,32,0.04),0_8px_24px_rgba(37,99,235,0.05)]"
-                >
-                  <span className="inline-flex size-8 items-center justify-center rounded-full bg-accent text-white font-bold text-sm">
-                    {i + 1}
-                  </span>
-                  <h3 className="mt-4 font-semibold">{st.title}</h3>
-                  <p className="mt-1.5 text-sm text-muted leading-relaxed">
-                    {st.text}
-                  </p>
-                </div>
-              ))}
+            <div className="relative mt-12">
+              {/* Линия процесса: вертикальная на мобильных, горизонтальная на десктопе */}
+              <div
+                aria-hidden
+                className="absolute left-4 top-2 bottom-2 w-px bg-border lg:left-0 lg:right-0 lg:top-4 lg:bottom-auto lg:h-px lg:w-auto"
+              />
+              <ol className="grid gap-10 lg:grid-cols-4 lg:gap-8">
+                {steps.map((st, i) => (
+                  <li key={st.title} className="relative pl-14 lg:pl-0">
+                    <span className="absolute left-0 top-0 lg:relative lg:left-auto lg:top-auto inline-flex size-8 items-center justify-center rounded-full bg-accent text-white font-bold text-sm shadow-[0_4px_12px_rgba(37,99,235,0.35)] ring-4 ring-white">
+                      {i + 1}
+                    </span>
+                    <h3 className="font-semibold text-lg lg:mt-5">{st.title}</h3>
+                    <p className="mt-1.5 text-sm text-muted leading-relaxed">
+                      {st.text}
+                    </p>
+                  </li>
+                ))}
+              </ol>
             </div>
           </section>
         </Reveal>
