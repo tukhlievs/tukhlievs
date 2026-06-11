@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { site, socials, stack } from "@/lib/site";
+import { site, socials, skills } from "@/lib/site";
 import { projects } from "@/lib/projects";
 import { getPosts, formatDate } from "@/lib/posts";
 import activity from "@/data/activity.json";
@@ -219,13 +219,43 @@ export default function HomePage() {
         <Reveal>
           <section className="mt-28 sm:mt-36">
             <h2 className="text-3xl font-bold tracking-tight">Stack</h2>
-            <ul className="mt-6 flex flex-wrap gap-2.5">
-              {stack.map((item) => (
+            <p className="mt-3 text-lg text-muted leading-relaxed max-w-2xl">
+              The tools I reach for, each in its own colours.
+            </p>
+            <ul className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {skills.map((s) => (
                 <li
-                  key={item}
-                  className="text-sm font-medium text-fg/80 border border-border bg-white rounded-full px-4 py-2 hover:border-accent/40 hover:text-accent transition-colors"
+                  key={s.name}
+                  style={{ ["--c" as string]: s.color }}
+                  className="group relative overflow-hidden rounded-2xl border border-border bg-white p-5 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:shadow-[0_2px_4px_rgba(11,18,32,0.05),0_16px_40px_rgba(37,99,235,0.12)] hover:[border-color:var(--c)]"
                 >
-                  {item}
+                  <div className="flex items-center gap-2">
+                    <span
+                      aria-hidden
+                      className="size-2.5 rounded-full shrink-0"
+                      style={{ background: "var(--c)" }}
+                    />
+                    <span className="font-display font-semibold text-fg leading-tight">
+                      {s.name}
+                    </span>
+                  </div>
+                  <div className="mt-1 text-xs text-muted">{s.category}</div>
+
+                  {/* Мягкая волнистая линия в цвете технологии */}
+                  <svg
+                    aria-hidden
+                    viewBox="0 0 120 14"
+                    preserveAspectRatio="none"
+                    fill="none"
+                    className="mt-5 h-3.5 w-full opacity-70 group-hover:opacity-100 transition-opacity"
+                  >
+                    <path
+                      d="M0 7 Q 10 0 20 7 T 40 7 T 60 7 T 80 7 T 100 7 T 120 7"
+                      stroke="var(--c)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
                 </li>
               ))}
             </ul>

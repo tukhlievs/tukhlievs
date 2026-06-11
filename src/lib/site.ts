@@ -42,3 +42,20 @@ export const stack = [
   "Tailwind CSS",
   "Git / Linux / Docker",
 ] as const;
+
+// Навыки с фирменными цветами технологий — для карточек на главной.
+// color используется в волнистой линии, точке и подсветке рамки на ховере.
+export type Skill = { name: string; category: string; color: string };
+
+export const skills: Skill[] = [
+  { name: "TypeScript", category: "Language", color: "#3178C6" },
+  { name: "React", category: "Library", color: "#22A7D0" },
+  { name: "Next.js", category: "Framework", color: "#0B1220" },
+  { name: "Cloudflare Workers", category: "Platform", color: "#F38020" },
+  { name: "Supabase", category: "Platform", color: "#3ECF8E" },
+  { name: "PostgreSQL", category: "Database", color: "#336791" },
+  { name: "Python", category: "Language", color: "#3776AB" },
+  { name: "Pyrogram", category: "Library", color: "#229ED9" },
+  { name: "Tailwind CSS", category: "Styling", color: "#06B6D4" },
+  { name: "Git / Linux / Docker", category: "Tooling", color: "#2496ED" },
+];
