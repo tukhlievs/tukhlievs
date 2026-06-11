@@ -84,7 +84,11 @@ export function ThreeBackground() {
       };
       window.addEventListener("resize", onResize);
 
-      const pos = geo.attributes.position as THREE.BufferAttribute;
+      // Структурный каст без THREE в типовой позиции (THREE здесь — рантайм-значение)
+      const pos = geo.getAttribute("position") as unknown as {
+        array: Float32Array;
+        needsUpdate: boolean;
+      };
       const clock = new THREE.Clock();
       let raf = 0;
 
