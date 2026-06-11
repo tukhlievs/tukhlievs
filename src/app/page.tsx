@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { site, socials, skills } from "@/lib/site";
+import { site, socials } from "@/lib/site";
+import { Layers, Database, Bot, GitBranch, ArrowRight } from "lucide-react";
 import { projects } from "@/lib/projects";
 import { getPosts, formatDate } from "@/lib/posts";
 import activity from "@/data/activity.json";
@@ -44,6 +45,70 @@ const steps = [
     text: "Live on your domain with everything wired. I stay around to fix what wobbles.",
   },
 ];
+
+const skillGroups = [
+  {
+    label: "Frontend & interfaces",
+    title: "React, Next.js, TypeScript, Tailwind",
+    Icon: Layers,
+    pattern: "wave" as const,
+    tone: "accent" as const,
+  },
+  {
+    label: "Backend & edge",
+    title: "Cloudflare Workers, Supabase, PostgreSQL",
+    Icon: Database,
+    pattern: "zigzag" as const,
+    tone: "deep" as const,
+  },
+  {
+    label: "Bots & automation",
+    title: "Python, Pyrogram, automation",
+    Icon: Bot,
+    pattern: "zigzag" as const,
+    tone: "deep" as const,
+  },
+  {
+    label: "Tooling & delivery",
+    title: "Git, Linux, Docker",
+    Icon: GitBranch,
+    pattern: "wave" as const,
+    tone: "accent" as const,
+  },
+];
+
+// Декоративные линии поверх заливки: мягкие волны или угловатые зигзаги
+function CardLines({ variant }: { variant: "wave" | "zigzag" }) {
+  const rows = [0, 1, 2, 3, 4];
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 400 240"
+      preserveAspectRatio="none"
+      fill="none"
+      className="absolute inset-0 h-full w-full"
+    >
+      {rows.map((r) => {
+        const y = 8 + r * 56;
+        const d =
+          variant === "wave"
+            ? `M-20 ${y} C 60 ${y - 30}, 140 ${y + 30}, 220 ${y} S 380 ${y - 30}, 460 ${y}`
+            : `M-20 ${y} L 70 ${y - 36} L 160 ${y + 36} L 250 ${y - 36} L 340 ${y + 36} L 460 ${y - 8}`;
+        return (
+          <path
+            key={r}
+            d={d}
+            stroke="white"
+            strokeOpacity="0.16"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        );
+      })}
+    </svg>
+  );
+}
 
 const stats = [
   { value: `${activity.total}+`, label: "commits · 12 weeks" },
@@ -220,45 +285,39 @@ export default function HomePage() {
           <section className="mt-28 sm:mt-36">
             <h2 className="text-3xl font-bold tracking-tight">Stack</h2>
             <p className="mt-3 text-lg text-muted leading-relaxed max-w-2xl">
-              The tools I reach for, each in its own colours.
+              What I work with, grouped by where it lives.
             </p>
-            <ul className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {skills.map((s) => (
-                <li
-                  key={s.name}
-                  style={{ ["--c" as string]: s.color }}
-                  className="group relative overflow-hidden rounded-2xl border border-border bg-white p-5 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:shadow-[0_2px_4px_rgba(11,18,32,0.05),0_16px_40px_rgba(37,99,235,0.12)] hover:[border-color:var(--c)]"
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
+              {skillGroups.map((g) => (
+                <Link
+                  key={g.label}
+                  href="/work"
+                  className={`group relative overflow-hidden rounded-3xl p-7 sm:p-8 min-h-52 flex flex-col text-white shadow-[0_12px_40px_rgba(37,99,235,0.18)] transition-transform duration-300 hover:-translate-y-1 ${
+                    g.tone === "accent" ? "bg-accent" : "bg-[#1e3a8a]"
+                  }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <span
-                      aria-hidden
-                      className="size-2.5 rounded-full shrink-0"
-                      style={{ background: "var(--c)" }}
-                    />
-                    <span className="font-display font-semibold text-fg leading-tight">
-                      {s.name}
+                  <CardLines variant={g.pattern} />
+                  <div className="relative z-10 flex h-full flex-col">
+                    <span className="inline-flex size-11 items-center justify-center rounded-xl border border-white/40">
+                      <g.Icon className="size-5" />
                     </span>
+                    <div className="mt-auto flex items-end justify-between gap-4 pt-12">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-widest text-white/70">
+                          {g.label}
+                        </p>
+                        <h3 className="mt-2 font-display text-xl sm:text-2xl font-bold uppercase leading-tight">
+                          {g.title}
+                        </h3>
+                      </div>
+                      <span className="shrink-0 inline-flex size-11 items-center justify-center rounded-xl border border-white/40 group-hover:bg-white/15 transition-colors">
+                        <ArrowRight className="size-5" />
+                      </span>
+                    </div>
                   </div>
-                  <div className="mt-1 text-xs text-muted">{s.category}</div>
-
-                  {/* Мягкая волнистая линия в цвете технологии */}
-                  <svg
-                    aria-hidden
-                    viewBox="0 0 120 14"
-                    preserveAspectRatio="none"
-                    fill="none"
-                    className="mt-5 h-3.5 w-full opacity-70 group-hover:opacity-100 transition-opacity"
-                  >
-                    <path
-                      d="M0 7 Q 10 0 20 7 T 40 7 T 60 7 T 80 7 T 100 7 T 120 7"
-                      stroke="var(--c)"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </li>
+                </Link>
               ))}
-            </ul>
+            </div>
           </section>
         </Reveal>
 
