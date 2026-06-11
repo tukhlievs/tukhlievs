@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Inter } from "next/font/google";
 import { site } from "@/lib/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ThreeBackground } from "@/components/ThreeBackground";
 import "./globals.css";
 
 const inter = Inter({
@@ -66,6 +67,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${bricolage.variable} min-h-dvh flex flex-col`}>
+        <ThreeBackground />
         <Header />
         <main className="flex-1 w-full">{children}</main>
         <Footer />
