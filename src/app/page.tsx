@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { site, socials } from "@/lib/site";
-import { Layers, Database, Bot, GitBranch, ArrowRight } from "lucide-react";
+import {
+  Layers,
+  Database,
+  Bot,
+  GitBranch,
+  ArrowRight,
+  ArrowUpRight,
+} from "lucide-react";
 import { projects } from "@/lib/projects";
 import { getPosts, formatDate } from "@/lib/posts";
 import activity from "@/data/activity.json";
@@ -46,39 +53,50 @@ const steps = [
   },
 ];
 
+// Оттенки голубого: от светлого к более тёмному. light=true → тёмный текст.
 const skillGroups = [
   {
     label: "Frontend & interfaces",
     title: "React, Next.js, TypeScript, Tailwind",
     Icon: Layers,
     pattern: "wave" as const,
-    tone: "accent" as const,
+    bg: "#93c5fd",
+    light: true,
   },
   {
     label: "Backend & edge",
     title: "Cloudflare Workers, Supabase, PostgreSQL",
     Icon: Database,
     pattern: "zigzag" as const,
-    tone: "deep" as const,
+    bg: "#60a5fa",
+    light: true,
   },
   {
     label: "Bots & automation",
     title: "Python, Pyrogram, automation",
     Icon: Bot,
     pattern: "zigzag" as const,
-    tone: "deep" as const,
+    bg: "#3b82f6",
+    light: false,
   },
   {
     label: "Tooling & delivery",
     title: "Git, Linux, Docker",
     Icon: GitBranch,
     pattern: "wave" as const,
-    tone: "accent" as const,
+    bg: "#2563eb",
+    light: false,
   },
 ];
 
 // Декоративные линии поверх заливки: мягкие волны или угловатые зигзаги
-function CardLines({ variant }: { variant: "wave" | "zigzag" }) {
+function CardLines({
+  variant,
+  stroke,
+}: {
+  variant: "wave" | "zigzag";
+  stroke: string;
+}) {
   const rows = [0, 1, 2, 3, 4];
   return (
     <svg
@@ -98,8 +116,8 @@ function CardLines({ variant }: { variant: "wave" | "zigzag" }) {
           <path
             key={r}
             d={d}
-            stroke="white"
-            strokeOpacity="0.16"
+            stroke={stroke}
+            strokeOpacity="0.18"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -292,25 +310,40 @@ export default function HomePage() {
                 <Link
                   key={g.label}
                   href="/work"
-                  className={`group relative overflow-hidden rounded-3xl p-7 sm:p-8 min-h-52 flex flex-col text-white shadow-[0_12px_40px_rgba(37,99,235,0.18)] transition-transform duration-300 hover:-translate-y-1 ${
-                    g.tone === "accent" ? "bg-accent" : "bg-[#1e3a8a]"
+                  style={{ background: g.bg }}
+                  className={`group relative overflow-hidden rounded-3xl p-7 sm:p-8 min-h-52 flex flex-col shadow-[0_12px_40px_rgba(37,99,235,0.18)] transition-transform duration-300 hover:-translate-y-1 ${
+                    g.light ? "text-fg" : "text-white"
                   }`}
                 >
-                  <CardLines variant={g.pattern} />
+                  <CardLines variant={g.pattern} stroke={g.light ? "#0b1220" : "#ffffff"} />
                   <div className="relative z-10 flex h-full flex-col">
-                    <span className="inline-flex size-11 items-center justify-center rounded-xl border border-white/40">
+                    <span
+                      className={`inline-flex size-11 items-center justify-center rounded-xl border ${
+                        g.light ? "border-fg/25" : "border-white/40"
+                      }`}
+                    >
                       <g.Icon className="size-5" />
                     </span>
                     <div className="mt-auto flex items-end justify-between gap-4 pt-12">
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-widest text-white/70">
+                        <p
+                          className={`text-xs font-semibold uppercase tracking-widest ${
+                            g.light ? "text-fg/60" : "text-white/70"
+                          }`}
+                        >
                           {g.label}
                         </p>
                         <h3 className="mt-2 font-display text-xl sm:text-2xl font-bold uppercase leading-tight">
                           {g.title}
                         </h3>
                       </div>
-                      <span className="shrink-0 inline-flex size-11 items-center justify-center rounded-xl border border-white/40 group-hover:bg-white/15 transition-colors">
+                      <span
+                        className={`shrink-0 inline-flex size-11 items-center justify-center rounded-xl border transition-colors ${
+                          g.light
+                            ? "border-fg/25 group-hover:bg-fg/10"
+                            : "border-white/40 group-hover:bg-white/15"
+                        }`}
+                      >
                         <ArrowRight className="size-5" />
                       </span>
                     </div>
@@ -359,16 +392,17 @@ export default function HomePage() {
         <Reveal>
           <section className="mt-28 sm:mt-36 mb-16 sm:mb-24">
             <h2 className="text-3xl font-bold tracking-tight">Elsewhere</h2>
-            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm">
+            <ul className="mt-8 flex flex-wrap gap-3">
               {socials.map((s) => (
                 <li key={s.label}>
                   <a
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-muted hover:text-accent transition-colors"
+                    className="group inline-flex items-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-semibold text-fg shadow-[0_1px_2px_rgba(11,18,32,0.04)] transition-all hover:-translate-y-0.5 hover:border-accent hover:bg-accent hover:text-white hover:shadow-[0_10px_24px_rgba(37,99,235,0.28)]"
                   >
-                    {s.label} ↗
+                    {s.label}
+                    <ArrowUpRight className="size-4 text-muted transition-colors group-hover:text-white" />
                   </a>
                 </li>
               ))}
